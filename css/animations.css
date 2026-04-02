@@ -1,0 +1,342 @@
+/* ============================================
+   CASINO ROYALE — Animations
+   ============================================ */
+
+/* --- Fade Ins --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- Card Deal --- */
+@keyframes dealCard {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) rotateY(90deg) scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateY(0) scale(1);
+  }
+}
+
+/* --- Dice Roll --- */
+@keyframes diceRoll {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  25% {
+    transform: rotate(90deg) scale(1.1);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1);
+  }
+
+  75% {
+    transform: rotate(270deg) scale(1.1);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+/* --- Reel Spin Blur --- */
+@keyframes reelSpin {
+  0% {
+    filter: blur(0);
+  }
+
+  20% {
+    filter: blur(2px);
+  }
+
+  80% {
+    filter: blur(2px);
+  }
+
+  100% {
+    filter: blur(0);
+  }
+}
+
+/* --- Pulse Glow --- */
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
+  }
+}
+
+@keyframes pulseGlowGreen {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(0, 200, 83, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(0, 200, 83, 0.6);
+  }
+}
+
+/* --- Neon Flicker --- */
+@keyframes neonFlicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  5% {
+    opacity: 0.8;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  15% {
+    opacity: 0.6;
+  }
+
+  20% {
+    opacity: 1;
+  }
+}
+
+/* --- Floating --- */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* --- Shimmer --- */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg,
+      var(--clr-gold-dark) 0%,
+      var(--clr-gold-light) 25%,
+      var(--clr-gold) 50%,
+      var(--clr-gold-light) 75%,
+      var(--clr-gold-dark) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+/* --- Win Celebration --- */
+@keyframes winPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes winShake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-4px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes confettiDrop {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* --- Confetti Particle --- */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  z-index: 1000;
+  pointer-events: none;
+  animation: confettiDrop var(--fall-duration, 3s) linear forwards;
+}
+
+/* --- Slot win glow on reels --- */
+.slot-reel.winning {
+  animation: pulseGlowGreen 0.5s ease infinite;
+  border-color: var(--clr-green) !important;
+}
+
+/* --- Blackjack card win highlight --- */
+.bj-card.highlight {
+  box-shadow: 0 0 20px rgba(0, 200, 83, 0.5);
+  border: 2px solid var(--clr-green);
+}
+
+/* --- Hover lift for interactive elements --- */
+.hover-lift {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+/* --- Gradient border animation --- */
+@keyframes gradientBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-border {
+  position: relative;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, var(--clr-gold), var(--clr-red), var(--clr-cyan), var(--clr-gold));
+  background-size: 300% 300%;
+  animation: gradientBorder 4s ease infinite;
+  z-index: -1;
+}
+
+/* --- Typing / Counting animation utility --- */
+.count-up {
+  display: inline-block;
+  transition: all var(--transition-base);
+}
+
+/* --- Stagger children animation --- */
+.stagger-in>* {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.stagger-in>*:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.stagger-in>*:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.stagger-in>*:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.stagger-in>*:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.stagger-in>*:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.stagger-in>*:nth-child(6) {
+  animation-delay: 0.6s;
+}

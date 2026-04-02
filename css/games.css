@@ -1,0 +1,659 @@
+/* ============================================
+   CASINO ROYALE — Game-Specific Styles
+   ============================================ */
+
+/* ====== SLOT MACHINE ====== */
+.slots-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.slots-machine {
+  position: relative;
+  background: linear-gradient(180deg, #1a1a30, #0e0e1c);
+  border: 2px solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-2xl);
+  box-shadow: var(--shadow-glow), inset 0 0 60px rgba(0, 0, 0, 0.3);
+  width: 100%;
+}
+
+.slots-machine::before {
+  content: '🎰 LUCKY SLOTS';
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--clr-gold-light), var(--clr-gold));
+  color: #0a0a0f;
+  padding: var(--sp-xs) var(--sp-xl);
+  border-radius: var(--radius-full);
+  font-family: var(--ff-heading);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.slots-display {
+  display: flex;
+  gap: var(--sp-md);
+  justify-content: center;
+  margin-bottom: var(--sp-xl);
+}
+
+.slot-reel {
+  width: 110px;
+  height: 130px;
+  background: #08081a;
+  border-radius: var(--radius-md);
+  border: 2px solid rgba(212, 175, 55, 0.15);
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.slot-reel::before,
+.slot-reel::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 30%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.slot-reel::before {
+  top: 0;
+  background: linear-gradient(to bottom, #08081a, transparent);
+}
+
+.slot-reel::after {
+  bottom: 0;
+  background: linear-gradient(to top, #08081a, transparent);
+}
+
+.slot-reel-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.1s linear;
+}
+
+.slot-symbol {
+  width: 110px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  flex-shrink: 0;
+}
+
+.slots-payline {
+  position: absolute;
+  top: 50%;
+  left: var(--sp-xl);
+  right: var(--sp-xl);
+  height: 2px;
+  background: var(--clr-gold);
+  transform: translateY(-50%);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.slots-actions {
+  display: flex;
+  gap: var(--sp-md);
+  justify-content: center;
+  align-items: center;
+}
+
+.spin-btn {
+  padding: var(--sp-md) var(--sp-3xl);
+  font-size: var(--fs-lg);
+  background: linear-gradient(135deg, var(--clr-red), #cc1a3e);
+  border-radius: var(--radius-full);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 0 30px rgba(255, 45, 85, 0.4);
+  transition: all var(--transition-base);
+  color: white;
+}
+
+.spin-btn:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 0 50px rgba(255, 45, 85, 0.6);
+}
+
+.spin-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.slots-paytable {
+  margin-top: var(--sp-xl);
+  width: 100%;
+  max-width: 400px;
+}
+
+.paytable-title {
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--clr-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--sp-md);
+}
+
+.paytable-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-sm) var(--sp-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-sm);
+}
+
+.paytable-row:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.paytable-symbols {
+  font-size: var(--fs-xl);
+  letter-spacing: 4px;
+}
+
+.paytable-payout {
+  color: var(--clr-gold-light);
+  font-weight: var(--fw-semibold);
+}
+
+/* ====== BLACKJACK ====== */
+.blackjack-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+.blackjack-table {
+  width: 100%;
+  background: radial-gradient(ellipse at center, #1a4a2e 0%, #0d2e1a 60%, #0a1f12 100%);
+  border: 3px solid rgba(212, 175, 55, 0.3);
+  border-radius: var(--radius-xl);
+  padding: var(--sp-2xl);
+  box-shadow: var(--shadow-glow), inset 0 0 80px rgba(0, 0, 0, 0.3);
+  min-height: 400px;
+  position: relative;
+}
+
+.bj-hand-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--sp-xl);
+}
+
+.bj-hand-label {
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--sp-sm);
+}
+
+.bj-hand-score {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--sp-md);
+}
+
+.bj-cards {
+  display: flex;
+  gap: var(--sp-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 120px;
+  align-items: center;
+}
+
+.bj-card {
+  width: 80px;
+  height: 115px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  background: white;
+  color: #1a1a2e;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  position: relative;
+  transition: transform var(--transition-spring);
+  animation: dealCard 0.4s ease;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.bj-card.red {
+  color: #cc1a3e;
+}
+
+.bj-card.face-down {
+  background: linear-gradient(135deg, #1a1a50, #2a2a60);
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(212, 175, 55, 0.08) 10px, rgba(212, 175, 55, 0.08) 11px),
+    repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(212, 175, 55, 0.08) 10px, rgba(212, 175, 55, 0.08) 11px);
+  background-color: #1a1a50;
+  border: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.bj-card-rank {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+}
+
+.bj-card-suit {
+  font-size: var(--fs-lg);
+}
+
+.bj-divider {
+  width: 80%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: var(--sp-md) auto;
+}
+
+.bj-actions {
+  display: flex;
+  gap: var(--sp-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: var(--sp-lg);
+}
+
+/* ====== ROULETTE ====== */
+.roulette-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+}
+
+.roulette-wheel-area {
+  position: relative;
+  margin-bottom: var(--sp-2xl);
+}
+
+.roulette-wheel {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 4px solid var(--clr-gold);
+  position: relative;
+  box-shadow: var(--shadow-gold), 0 0 60px rgba(212, 175, 55, 0.1);
+  transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+  background: conic-gradient(#cc1a3e 0deg 9.73deg,
+      #1a1a2e 9.73deg 19.46deg,
+      #cc1a3e 19.46deg 29.19deg,
+      #1a1a2e 29.19deg 38.92deg,
+      #cc1a3e 38.92deg 48.65deg,
+      #1a1a2e 48.65deg 58.38deg,
+      #cc1a3e 58.38deg 68.11deg,
+      #1a1a2e 68.11deg 77.84deg,
+      #cc1a3e 77.84deg 87.57deg,
+      #1a1a2e 87.57deg 97.3deg,
+      #cc1a3e 97.3deg 107.03deg,
+      #1a1a2e 107.03deg 116.76deg,
+      #cc1a3e 116.76deg 126.49deg,
+      #1a1a2e 126.49deg 136.22deg,
+      #cc1a3e 136.22deg 145.95deg,
+      #1a1a2e 145.95deg 155.68deg,
+      #cc1a3e 155.68deg 165.41deg,
+      #1a1a2e 165.41deg 175.14deg,
+      #0a6e2c 175.14deg 184.87deg,
+      #cc1a3e 184.87deg 194.6deg,
+      #1a1a2e 194.6deg 204.33deg,
+      #cc1a3e 204.33deg 214.06deg,
+      #1a1a2e 214.06deg 223.79deg,
+      #cc1a3e 223.79deg 233.52deg,
+      #1a1a2e 233.52deg 243.25deg,
+      #cc1a3e 243.25deg 252.98deg,
+      #1a1a2e 252.98deg 262.71deg,
+      #cc1a3e 262.71deg 272.44deg,
+      #1a1a2e 272.44deg 282.17deg,
+      #cc1a3e 282.17deg 291.9deg,
+      #1a1a2e 291.9deg 301.63deg,
+      #cc1a3e 301.63deg 311.36deg,
+      #1a1a2e 311.36deg 321.09deg,
+      #cc1a3e 321.09deg 330.82deg,
+      #1a1a2e 330.82deg 340.55deg,
+      #cc1a3e 340.55deg 350.28deg,
+      #1a1a2e 350.28deg 360deg);
+}
+
+.roulette-wheel-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--clr-gold-light), var(--clr-gold-dark));
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: #0a0a0f;
+  z-index: 5;
+}
+
+.roulette-pointer {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 25px solid var(--clr-gold);
+  z-index: 10;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+}
+
+.roulette-result {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-black);
+  margin: var(--sp-md) 0;
+  min-height: 50px;
+}
+
+.roulette-betting-board {
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 2px;
+  width: 100%;
+  max-width: 750px;
+  margin-bottom: var(--sp-xl);
+}
+
+.roulette-bet-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-sm);
+  border-radius: 4px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.roulette-bet-cell:hover {
+  transform: scale(1.08);
+  z-index: 2;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+.roulette-bet-cell.selected {
+  border: 2px solid var(--clr-gold);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.roulette-bet-cell.red {
+  background: #cc1a3e;
+}
+
+.roulette-bet-cell.black {
+  background: #1a1a2e;
+}
+
+.roulette-bet-cell.green {
+  background: #0a6e2c;
+}
+
+.roulette-bet-cell.outside {
+  background: rgba(255, 255, 255, 0.04);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.roulette-actions {
+  display: flex;
+  gap: var(--sp-md);
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.roulette-bets-summary {
+  margin: var(--sp-md) 0;
+  font-size: var(--fs-sm);
+  color: var(--clr-text-muted);
+}
+
+/* ====== DICE ====== */
+.dice-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.dice-area {
+  display: flex;
+  gap: var(--sp-xl);
+  margin: var(--sp-2xl) 0;
+  justify-content: center;
+}
+
+.die {
+  width: 100px;
+  height: 100px;
+  background: white;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: var(--fw-black);
+  color: #1a1a2e;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  transition: transform var(--transition-base);
+}
+
+.die.rolling {
+  animation: diceRoll 0.15s linear infinite;
+}
+
+.dice-prediction {
+  display: flex;
+  gap: var(--sp-md);
+  margin-bottom: var(--sp-xl);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dice-pred-btn {
+  padding: var(--sp-md) var(--sp-xl);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  font-weight: var(--fw-semibold);
+  transition: all var(--transition-base);
+  text-align: center;
+}
+
+.dice-pred-btn:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.dice-pred-btn.selected {
+  border-color: var(--clr-gold);
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--clr-gold-light);
+  box-shadow: var(--shadow-gold);
+}
+
+.dice-pred-label {
+  display: block;
+  font-size: var(--fs-lg);
+  margin-bottom: var(--sp-xs);
+}
+
+.dice-pred-desc {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--clr-text-dim);
+}
+
+.dice-pred-mult {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--clr-gold);
+  margin-top: var(--sp-xs);
+}
+
+.dice-total {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--sp-md);
+  min-height: 40px;
+}
+
+.dice-actions {
+  display: flex;
+  gap: var(--sp-md);
+  justify-content: center;
+}
+
+/* ====== Leaderboard (in-page) ====== */
+.leaderboard-section {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  padding: var(--sp-md) var(--sp-lg);
+  border-radius: var(--radius-md);
+  background: var(--clr-bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all var(--transition-base);
+}
+
+.leaderboard-item:hover {
+  border-color: rgba(212, 175, 55, 0.15);
+  background: var(--clr-bg-card-hover);
+}
+
+.leaderboard-rank {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  color: var(--clr-gold);
+  min-width: 40px;
+}
+
+.leaderboard-item:nth-child(1) .leaderboard-rank {
+  color: var(--clr-gold-light);
+}
+
+.leaderboard-item:nth-child(2) .leaderboard-rank {
+  color: #c0c0c0;
+}
+
+.leaderboard-item:nth-child(3) .leaderboard-rank {
+  color: #cd7f32;
+}
+
+.leaderboard-info {
+  flex: 1;
+}
+
+.leaderboard-game {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+}
+
+.leaderboard-date {
+  font-size: var(--fs-xs);
+  color: var(--clr-text-dim);
+}
+
+.leaderboard-amount {
+  font-family: var(--ff-heading);
+  font-weight: var(--fw-bold);
+  color: var(--clr-green);
+}
+
+/* ====== Responsive game styles ====== */
+@media (max-width: 768px) {
+  .slot-reel {
+    width: 85px;
+    height: 100px;
+  }
+
+  .slot-symbol {
+    width: 85px;
+    height: 100px;
+    font-size: 3rem;
+  }
+
+  .blackjack-table {
+    padding: var(--sp-lg);
+  }
+
+  .bj-card {
+    width: 60px;
+    height: 88px;
+    font-size: var(--fs-md);
+  }
+
+  .roulette-wheel {
+    width: 220px;
+    height: 220px;
+  }
+
+  .roulette-betting-board {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+  }
+
+  .die {
+    width: 75px;
+    height: 75px;
+    font-size: 2.2rem;
+  }
+}

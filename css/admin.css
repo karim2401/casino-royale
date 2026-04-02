@@ -1,0 +1,345 @@
+/* ============================================
+   CASINO ROYALE — Admin Panel Styles
+   ============================================ */
+
+.admin-body {
+  min-height: 100vh;
+  background: var(--clr-bg-deep);
+}
+
+/* --- Admin Nav --- */
+.admin-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-md) var(--sp-xl);
+  background: rgba(6, 6, 11, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+}
+
+.admin-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  font-family: var(--ff-heading);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-black);
+}
+
+.admin-nav-actions {
+  display: flex;
+  gap: var(--sp-sm);
+}
+
+.admin-btn {
+  padding: var(--sp-sm) var(--sp-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xs);
+}
+
+.admin-btn-primary {
+  background: linear-gradient(135deg, var(--clr-gold), var(--clr-orange));
+  color: #000;
+}
+
+.admin-btn-primary:hover {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.admin-btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--clr-text-muted);
+}
+
+.admin-btn-secondary:hover {
+  border-color: var(--clr-gold);
+  color: var(--clr-gold-light);
+}
+
+.admin-btn-danger {
+  background: rgba(255, 45, 85, 0.1);
+  border: 1px solid rgba(255, 45, 85, 0.2);
+  color: var(--clr-red);
+}
+
+.admin-btn-danger:hover {
+  background: rgba(255, 45, 85, 0.2);
+}
+
+.admin-btn-success {
+  background: rgba(0, 200, 83, 0.1);
+  border: 1px solid rgba(0, 200, 83, 0.2);
+  color: var(--clr-green);
+}
+
+.admin-btn-success:hover {
+  background: rgba(0, 200, 83, 0.2);
+}
+
+.admin-btn-sm {
+  padding: 4px 12px;
+  font-size: var(--fs-xs);
+}
+
+/* --- Admin Main --- */
+.admin-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--sp-xl);
+}
+
+/* --- Stats Cards --- */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--sp-md);
+  margin-bottom: var(--sp-2xl);
+}
+
+.stat-card {
+  padding: var(--sp-lg);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all var(--transition-fast);
+}
+
+.stat-card:hover {
+  border-color: rgba(212, 175, 55, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.stat-card-label {
+  font-size: var(--fs-xs);
+  color: var(--clr-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--sp-xs);
+}
+
+.stat-card-value {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-black);
+  color: var(--clr-gold-light);
+}
+
+.stat-card-icon {
+  font-size: 1.5rem;
+  margin-bottom: var(--sp-sm);
+}
+
+/* --- Tabs --- */
+.admin-tabs {
+  display: flex;
+  gap: var(--sp-xs);
+  margin-bottom: var(--sp-xl);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: var(--sp-xs);
+  overflow-x: auto;
+}
+
+.admin-tab {
+  padding: var(--sp-sm) var(--sp-lg);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--clr-text-dim);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+
+.admin-tab:hover {
+  color: var(--clr-text);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-tab.active {
+  color: var(--clr-gold-light);
+  border-bottom-color: var(--clr-gold);
+  background: rgba(212, 175, 55, 0.04);
+}
+
+/* --- Panel Content --- */
+.admin-panel {
+  display: none;
+}
+
+.admin-panel.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+/* --- Admin Table --- */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.admin-table th {
+  text-align: left;
+  padding: var(--sp-md) var(--sp-lg);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--clr-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.admin-table td {
+  padding: var(--sp-md) var(--sp-lg);
+  font-size: var(--fs-sm);
+  color: var(--clr-text-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.admin-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.admin-table .amount {
+  font-family: var(--ff-heading);
+  font-weight: var(--fw-bold);
+  color: var(--clr-gold-light);
+}
+
+.admin-table .status {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: var(--fw-bold);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+.status-pending {
+  background: rgba(255, 200, 0, 0.12);
+  color: #ffc800;
+}
+
+.status-approved {
+  background: rgba(0, 200, 83, 0.12);
+  color: var(--clr-green);
+}
+
+.status-rejected {
+  background: rgba(255, 45, 85, 0.12);
+  color: var(--clr-red);
+}
+
+.admin-actions {
+  display: flex;
+  gap: var(--sp-xs);
+}
+
+/* --- Empty State --- */
+.admin-empty {
+  text-align: center;
+  padding: var(--sp-3xl);
+  color: var(--clr-text-dim);
+}
+
+.admin-empty-icon {
+  font-size: 3rem;
+  margin-bottom: var(--sp-md);
+}
+
+.admin-empty-text {
+  font-size: var(--fs-sm);
+}
+
+/* --- User Badge --- */
+.user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+}
+
+.badge-active {
+  background: rgba(0, 200, 83, 0.1);
+  color: var(--clr-green);
+}
+
+.badge-banned {
+  background: rgba(255, 45, 85, 0.1);
+  color: var(--clr-red);
+}
+
+/* Inline edit */
+.admin-inline-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  color: var(--clr-text);
+  font-size: var(--fs-sm);
+  width: 100px;
+}
+
+.admin-inline-input:focus {
+  border-color: var(--clr-gold);
+  outline: none;
+}
+
+/* TX Hash */
+.tx-hash {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  color: var(--clr-text-dim);
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .admin-nav {
+    flex-direction: column;
+    gap: var(--sp-sm);
+    text-align: center;
+  }
+
+  .admin-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-tabs {
+    gap: 2px;
+  }
+
+  .admin-tab {
+    padding: var(--sp-sm) var(--sp-md);
+    font-size: var(--fs-xs);
+  }
+}

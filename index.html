@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Casino Royale — Premium online casino. Sign up, deposit, and win big.">
+  <title>Casino Royale — Play & Win</title>
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/games.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎰</text></svg>">
+</head>
+
+<body>
+
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ======== NAVBAR ======== -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-brand" onclick="App.goHome()">
+      <span class="brand-icon">🎰</span>
+      <span class="gold-text">CASINO ROYALE</span>
+    </div>
+
+    <div class="navbar-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+
+    <div class="navbar-links">
+      <a href="#games" class="active">Games</a>
+      <a href="#leaderboard">Leaderboard</a>
+
+      <!-- Guest buttons -->
+      <div id="nav-guest" class="nav-auth-btns">
+        <button class="btn-nav-auth btn-nav-signin" onclick="App.openModal('signin-modal')">Sign In</button>
+        <button class="btn-nav-auth btn-nav-signup" onclick="App.openModal('signup-modal')">Sign Up</button>
+      </div>
+
+      <!-- Logged-in user -->
+      <div id="nav-user" style="display:none" class="nav-user-section">
+        <div class="wallet-display" id="wallet-display">
+          <span class="wallet-icon">💰</span>
+          <span class="wallet-amount">$0</span>
+        </div>
+        <button class="btn-nav-deposit" onclick="App.openModal('deposit-modal')">💳 Deposit</button>
+        <button class="btn-nav-withdraw" onclick="App.openModal('withdraw-modal')">💸 Withdraw</button>
+        <div class="user-menu" id="user-menu">
+          <button class="user-menu-trigger" onclick="this.parentElement.classList.toggle('open')">
+            <span class="user-avatar-circle" id="user-avatar">U</span>
+            <span class="user-display-name" id="user-name">User</span>
+            <span class="caret">▾</span>
+          </button>
+          <div class="user-dropdown">
+            <div class="dropdown-header">
+              <div class="dropdown-uname" id="dropdown-username">User</div>
+              <div class="dropdown-email" id="dropdown-email">user@email.com</div>
+            </div>
+            <div class="dropdown-sep"></div>
+            <a class="dropdown-item" onclick="App.openModal('deposit-modal')">💳 Deposit</a>
+            <a class="dropdown-item" onclick="App.openModal('withdraw-modal')">💸 Withdraw</a>
+            <a class="dropdown-item" onclick="App.openModal('history-modal')">📋 Transactions</a>
+            <div class="dropdown-sep"></div>
+            <a class="dropdown-item dropdown-signout" onclick="App.handleSignOut()">🚪 Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ======== HERO ======== -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span>✨</span> Premium Casino Experience</div>
+      <h1 class="hero-title">Feel the Rush.<span class="accent">Win Big Tonight.</span></h1>
+      <p class="hero-subtitle">Sign up, deposit, and dive into our premium casino games. Play Slots, Blackjack,
+        Roulette, and Dice for real.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary" onclick="App.handlePlayNow(event)">🎮 Play Now</a>
+        <a href="#games" class="btn-secondary">🎰 View Games</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value">4</div>
+          <div class="hero-stat-label">Games</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">$10</div>
+          <div class="hero-stat-label">Min Deposit</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">8</div>
+          <div class="hero-stat-label">Cryptos</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== GAMES GRID ======== -->
+  <section class="section" id="games">
+    <div class="section-header">
+      <span class="section-label">Choose Your Game</span>
+      <h2 class="section-title">The Casino Floor</h2>
+      <p class="section-subtitle">Four premium games, endless excitement.</p>
+    </div>
+    <div class="games-grid stagger-in">
+      <div class="game-card hover-lift" onclick="App.openGame('slots')" id="card-slots">
+        <div class="game-card-glow"
+          style="background:radial-gradient(ellipse at center,rgba(255,45,85,0.15),transparent 70%)"></div>
+        <div class="game-card-visual" style="background:linear-gradient(135deg,#1a0a15,#2a0a20)">🎰</div>
+        <div class="game-card-body">
+          <h3 class="game-card-title">Lucky Slots</h3>
+          <p class="game-card-desc">Spin the reels and match symbols for massive payouts. Hit three stars for 100× your
+            bet!</p>
+          <div class="game-card-footer"><span class="chip chip-red">Up to 100×</span><span class="game-card-tag">Min
+              $1</span></div>
+        </div>
+      </div>
+      <div class="game-card hover-lift" onclick="App.openGame('blackjack')" id="card-blackjack">
+        <div class="game-card-glow"
+          style="background:radial-gradient(ellipse at center,rgba(0,200,83,0.15),transparent 70%)"></div>
+        <div class="game-card-visual" style="background:linear-gradient(135deg,#0a1a12,#0a2a15)">🃏</div>
+        <div class="game-card-body">
+          <h3 class="game-card-title">Blackjack</h3>
+          <p class="game-card-desc">Beat the dealer to 21. Hit, stand, or double down for maximum strategy and thrills.
+          </p>
+          <div class="game-card-footer"><span class="chip chip-green">2.5× Blackjack</span><span
+              class="game-card-tag">Min $1</span></div>
+        </div>
+      </div>
+      <div class="game-card hover-lift" onclick="App.openGame('roulette')" id="card-roulette">
+        <div class="game-card-glow"
+          style="background:radial-gradient(ellipse at center,rgba(212,175,55,0.15),transparent 70%)"></div>
+        <div class="game-card-visual" style="background:linear-gradient(135deg,#1a150a,#2a1f0a)">🎡</div>
+        <div class="game-card-body">
+          <h3 class="game-card-title">Roulette</h3>
+          <p class="game-card-desc">Place your bets on the classic European roulette. Single numbers pay 36× your wager.
+          </p>
+          <div class="game-card-footer"><span class="chip chip-gold">Up to 36×</span><span class="game-card-tag">Min
+              $1</span></div>
+        </div>
+      </div>
+      <div class="game-card hover-lift" onclick="App.openGame('dice')" id="card-dice">
+        <div class="game-card-glow"
+          style="background:radial-gradient(ellipse at center,rgba(0,229,255,0.15),transparent 70%)"></div>
+        <div class="game-card-visual" style="background:linear-gradient(135deg,#0a1520,#0a1a2a)">🎲</div>
+        <div class="game-card-body">
+          <h3 class="game-card-title">Dice</h3>
+          <p class="game-card-desc">Predict the outcome of two dice. Simple, fast, and exciting with up to 5× payouts.
+          </p>
+          <div class="game-card-footer"><span class="chip chip-gold">Up to 5×</span><span class="game-card-tag">Min
+              $1</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== LEADERBOARD ======== -->
+  <section class="section" id="leaderboard">
+    <div class="section-header">
+      <span class="section-label">Hall of Fame</span>
+      <h2 class="section-title">🏆 Biggest Wins</h2>
+      <p class="section-subtitle">Top wins across all players.</p>
+    </div>
+    <div class="leaderboard-section">
+      <div class="leaderboard-list" id="leaderboard-list"></div>
+    </div>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer">
+    <div class="footer-brand gold-text">🎰 CASINO ROYALE</div>
+    <p class="footer-text">The ultimate premium casino experience. Play responsibly.</p>
+    <div class="footer-disclaimer">⚠️ Must be <strong>18+</strong> to play. Gambling can be addictive. Play responsibly.
+    </div>
+  </footer>
+
+  <!-- ======== GAME VIEWS ======== -->
+  <div class="game-view" id="game-slots">
+    <div class="game-view-header">
+      <h2 class="game-view-title">🎰 Lucky Slots</h2>
+      <div style="display:flex;align-items:center">
+        <div class="wallet-display"><span class="wallet-icon">💰</span><span class="wallet-amount">$0</span></div>
+      </div>
+      <button class="game-view-close" onclick="App.closeGame('slots')">✕</button>
+    </div>
+    <div class="game-view-body">
+      <div id="slots-message" class="game-message neutral">Spin to win!</div>
+      <div class="slots-container">
+        <div class="slots-machine">
+          <div class="slots-payline"></div>
+          <div class="slots-display">
+            <div class="slot-reel">
+              <div class="slot-reel-inner" id="reel-0">
+                <div class="slot-symbol">🍒</div>
+              </div>
+            </div>
+            <div class="slot-reel">
+              <div class="slot-reel-inner" id="reel-1">
+                <div class="slot-symbol">🍋</div>
+              </div>
+            </div>
+            <div class="slot-reel">
+              <div class="slot-reel-inner" id="reel-2">
+                <div class="slot-symbol">🔔</div>
+              </div>
+            </div>
+          </div>
+          <div class="bet-controls"><span class="bet-label">Bet:</span><button class="bet-btn"
+              id="slots-bet-down">−</button><span class="bet-amount-display" id="slots-bet-amount">$1</span><button
+              class="bet-btn" id="slots-bet-up">+</button></div>
+          <div class="slots-actions"><button class="spin-btn" id="slots-spin">🎰 SPIN</button></div>
+        </div>
+        <div class="slots-paytable">
+          <div class="paytable-title">— Paytable —</div>
+          <div class="paytable-row"><span class="paytable-symbols">⭐⭐⭐</span><span class="paytable-payout">100×</span>
+          </div>
+          <div class="paytable-row"><span class="paytable-symbols">7️⃣7️⃣7️⃣</span><span
+              class="paytable-payout">50×</span></div>
+          <div class="paytable-row"><span class="paytable-symbols">💎💎💎</span><span class="paytable-payout">20×</span>
+          </div>
+          <div class="paytable-row"><span class="paytable-symbols">🔔🔔🔔</span><span class="paytable-payout">12×</span>
+          </div>
+          <div class="paytable-row"><span class="paytable-symbols">🍋🍋🍋</span><span class="paytable-payout">8×</span>
+          </div>
+          <div class="paytable-row"><span class="paytable-symbols">🍒🍒🍒</span><span class="paytable-payout">5×</span>
+          </div>
+          <div class="paytable-row"><span class="paytable-symbols">Any 2 match</span><span
+              class="paytable-payout">0.5×</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="game-view" id="game-blackjack">
+    <div class="game-view-header">
+      <h2 class="game-view-title">🃏 Blackjack</h2>
+      <div style="display:flex;align-items:center">
+        <div class="wallet-display"><span class="wallet-icon">💰</span><span class="wallet-amount">$0</span></div>
+      </div>
+      <button class="game-view-close" onclick="App.closeGame('blackjack')">✕</button>
+    </div>
+    <div class="game-view-body">
+      <div id="bj-message" class="game-message neutral">Place your bet and deal!</div>
+      <div class="blackjack-container">
+        <div class="bet-controls"><span class="bet-label">Bet:</span><button class="bet-btn"
+            id="bj-bet-down">−</button><span class="bet-amount-display" id="bj-bet-amount">$5</span><button
+            class="bet-btn" id="bj-bet-up">+</button></div>
+        <div class="blackjack-table">
+          <div class="bj-hand-area"><span class="bj-hand-label">Dealer</span><span class="bj-hand-score"
+              id="dealer-score">—</span>
+            <div class="bj-cards" id="dealer-cards"></div>
+          </div>
+          <div class="bj-divider"></div>
+          <div class="bj-hand-area"><span class="bj-hand-label">Your Hand</span><span class="bj-hand-score"
+              id="player-score">—</span>
+            <div class="bj-cards" id="player-cards"></div>
+          </div>
+        </div>
+        <div class="bj-actions"><button class="btn-game" id="bj-deal">Deal</button><button class="btn-game" id="bj-hit"
+            style="display:none">Hit</button><button class="btn-game" id="bj-stand"
+            style="display:none">Stand</button><button class="btn-game" id="bj-double" style="display:none">Double
+            Down</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="game-view" id="game-roulette">
+    <div class="game-view-header">
+      <h2 class="game-view-title">🎡 Roulette</h2>
+      <div style="display:flex;align-items:center">
+        <div class="wallet-display"><span class="wallet-icon">💰</span><span class="wallet-amount">$0</span></div>
+      </div>
+      <button class="game-view-close" onclick="App.closeGame('roulette')">✕</button>
+    </div>
+    <div class="game-view-body">
+      <div id="roulette-message" class="game-message neutral">Place your bets on the board below!</div>
+      <div class="roulette-container">
+        <div class="roulette-wheel-area">
+          <div class="roulette-pointer"></div>
+          <div class="roulette-wheel" id="roulette-wheel">
+            <div class="roulette-wheel-center">SPIN</div>
+          </div>
+        </div>
+        <div class="roulette-result" id="roulette-result"></div>
+        <div class="bet-controls"><span class="bet-label">Bet per cell:</span><button class="bet-btn"
+            id="roulette-bet-down">−</button><span class="bet-amount-display" id="roulette-bet-amount">$1</span><button
+            class="bet-btn" id="roulette-bet-up">+</button></div>
+        <div class="roulette-bets-summary" id="roulette-bets-summary">No bets placed</div>
+        <div class="roulette-betting-board" id="roulette-board"></div>
+        <div class="roulette-actions"><button class="btn-game btn-danger" id="roulette-spin">🎡 SPIN</button><button
+            class="btn-game" id="roulette-clear">Clear Bets</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="game-view" id="game-dice">
+    <div class="game-view-header">
+      <h2 class="game-view-title">🎲 Dice</h2>
+      <div style="display:flex;align-items:center">
+        <div class="wallet-display"><span class="wallet-icon">💰</span><span class="wallet-amount">$0</span></div>
+      </div>
+      <button class="game-view-close" onclick="App.closeGame('dice')">✕</button>
+    </div>
+    <div class="game-view-body">
+      <div id="dice-message" class="game-message neutral">Select a prediction, then roll!</div>
+      <div class="dice-container">
+        <div class="dice-prediction">
+          <button class="dice-pred-btn" data-prediction="under"><span class="dice-pred-label">⬇️ Under 7</span><span
+              class="dice-pred-desc">Total is 2–6</span><span class="dice-pred-mult">2× Payout</span></button>
+          <button class="dice-pred-btn" data-prediction="seven"><span class="dice-pred-label">🎯 Exactly 7</span><span
+              class="dice-pred-desc">Total is 7</span><span class="dice-pred-mult">5× Payout</span></button>
+          <button class="dice-pred-btn" data-prediction="over"><span class="dice-pred-label">⬆️ Over 7</span><span
+              class="dice-pred-desc">Total is 8–12</span><span class="dice-pred-mult">2× Payout</span></button>
+        </div>
+        <div class="bet-controls"><span class="bet-label">Bet:</span><button class="bet-btn"
+            id="dice-bet-down">−</button><span class="bet-amount-display" id="dice-bet-amount">$1</span><button
+            class="bet-btn" id="dice-bet-up">+</button></div>
+        <div class="dice-area">
+          <div class="die" id="die-1">?</div>
+          <div class="die" id="die-2">?</div>
+        </div>
+        <div class="dice-total" id="dice-total"></div>
+        <div class="dice-actions"><button class="btn-game btn-danger" id="dice-roll">🎲 ROLL DICE</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SIGN UP MODAL ======== -->
+  <div class="modal-overlay" id="signup-modal">
+    <div class="modal-box">
+      <div class="modal-box-header">
+        <h2>🎰 Create Account</h2>
+        <button class="modal-close-btn" onclick="App.closeModal('signup-modal')">✕</button>
+      </div>
+      <div class="modal-box-body">
+        <div class="form-group">
+          <label>Username</label>
+          <div class="input-row"><span class="input-icon">👤</span><input type="text" id="signup-username"
+              placeholder="Choose a username" autocomplete="off"></div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <div class="input-row"><span class="input-icon">📧</span><input type="email" id="signup-email"
+              placeholder="your@email.com" autocomplete="off"></div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-row"><span class="input-icon">🔒</span><input type="password" id="signup-password"
+              placeholder="Min 6 characters"></div>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <div class="input-row"><span class="input-icon">🔒</span><input type="password" id="signup-password-confirm"
+              placeholder="Re-enter password"></div>
+        </div>
+        <div class="form-error" id="signup-error"></div>
+        <button class="btn-primary form-submit-btn" onclick="App.handleSignUp()">🎰 Create Account</button>
+        <div class="form-switch">Already have an account? <a
+            onclick="App.switchModal('signup-modal','signin-modal')">Sign In</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SIGN IN MODAL ======== -->
+  <div class="modal-overlay" id="signin-modal">
+    <div class="modal-box">
+      <div class="modal-box-header">
+        <h2>🔑 Sign In</h2>
+        <button class="modal-close-btn" onclick="App.closeModal('signin-modal')">✕</button>
+      </div>
+      <div class="modal-box-body">
+        <div class="form-group">
+          <label>Username or Email</label>
+          <div class="input-row"><span class="input-icon">👤</span><input type="text" id="signin-username"
+              placeholder="Username or email" autocomplete="off"></div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-row"><span class="input-icon">🔒</span><input type="password" id="signin-password"
+              placeholder="Your password"></div>
+        </div>
+        <div class="form-error" id="signin-error"></div>
+        <button class="btn-primary form-submit-btn" onclick="App.handleSignIn()">🔑 Sign In</button>
+        <div class="form-switch">Don't have an account? <a onclick="App.switchModal('signin-modal','signup-modal')">Sign
+            Up</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== DEPOSIT MODAL ======== -->
+  <div class="modal-overlay" id="deposit-modal">
+    <div class="modal-box modal-box-lg">
+      <div class="modal-box-header">
+        <h2>💳 Deposit Funds</h2>
+        <button class="modal-close-btn" onclick="App.closeModal('deposit-modal')">✕</button>
+      </div>
+      <div class="modal-box-body">
+        <div class="deposit-step">
+          <label class="step-label">1. Select Currency</label>
+          <p class="step-hint">Choose which cryptocurrency you want to deposit</p>
+          <div class="crypto-picker" id="crypto-grid"></div>
+        </div>
+        <div class="deposit-step" id="deposit-address-section" style="display:none">
+          <label class="step-label">2. Send Funds to This Address</label>
+          <p class="step-hint">Copy the address below and send your <span id="deposit-currency-name">crypto</span></p>
+          <div class="address-card">
+            <span class="address-card-icon" id="deposit-crypto-icon">₿</span>
+            <span class="address-card-text" id="deposit-wallet-address">ADDRESS_HERE</span>
+            <button class="address-card-copy" onclick="App.copyWalletAddress()">📋 Copy</button>
+          </div>
+          <div class="copy-toast" id="copy-feedback" style="display:none">✅ Address copied!</div>
+        </div>
+        <div class="deposit-step" id="deposit-details-section" style="display:none">
+          <label class="step-label">3. Enter Transaction Details</label>
+          <p class="step-hint">After sending, enter the details below (min deposit: $10)</p>
+          <div class="form-group"><label style="font-size:0.75rem">Amount Sent (USD)</label>
+            <div class="input-row"><span class="input-icon">💰</span><input type="number" id="deposit-amount"
+                placeholder="Min $10" min="10" step="1"></div>
+          </div>
+          <div class="form-group"><label style="font-size:0.75rem">Transaction ID / Hash</label>
+            <div class="input-row"><span class="input-icon">🔗</span><input type="text" id="deposit-txhash"
+                placeholder="Paste your transaction hash..." autocomplete="off"></div>
+          </div>
+          <div class="form-error" id="deposit-error"></div>
+          <button class="btn-primary form-submit-btn" onclick="App.handleDeposit()">📤 Submit Deposit Request</button>
+        </div>
+        <div class="success-state" id="deposit-success">
+          <div class="success-icon">⏳</div>
+          <div class="success-title">Deposit Submitted!</div>
+          <div class="success-amount" id="deposit-success-amount"></div>
+          <p class="success-note">Your deposit is being reviewed. Funds will be credited once confirmed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== WITHDRAW MODAL ======== -->
+  <div class="modal-overlay" id="withdraw-modal">
+    <div class="modal-box">
+      <div class="modal-box-header">
+        <h2>💸 Withdraw Funds</h2>
+        <button class="modal-close-btn" onclick="App.closeModal('withdraw-modal')">✕</button>
+      </div>
+      <div class="modal-box-body">
+        <div class="balance-bar">
+          <span>Available Balance</span>
+          <span class="balance-bar-amount wallet-amount">$0</span>
+        </div>
+        <div class="form-group"><label>Currency</label>
+          <div class="crypto-picker crypto-picker-sm" id="withdraw-crypto-grid"></div>
+        </div>
+        <div class="form-group"><label>Amount (min $50)</label>
+          <div class="input-row"><span class="input-icon">💰</span><input type="number" id="withdraw-amount"
+              placeholder="Min $50" min="50" step="1"></div>
+        </div>
+        <div class="form-group"><label>Your Wallet Address</label>
+          <div class="input-row"><span class="input-icon">📬</span><input type="text" id="withdraw-wallet"
+              placeholder="Enter your wallet address..." autocomplete="off"></div>
+        </div>
+        <div class="form-error" id="withdraw-error"></div>
+        <button class="btn-primary form-submit-btn" onclick="App.handleWithdrawal()">💸 Submit Withdrawal</button>
+        <div class="success-state" id="withdraw-success">
+          <div class="success-icon">⏳</div>
+          <div class="success-title">Withdrawal Submitted!</div>
+          <div class="success-amount" id="withdraw-success-amount"></div>
+          <p class="success-note">Your withdrawal is being processed. Expect delivery within 24–48 hours.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== HISTORY MODAL ======== -->
+  <div class="modal-overlay" id="history-modal">
+    <div class="modal-box modal-box-lg">
+      <div class="modal-box-header">
+        <h2>📋 My Transactions</h2>
+        <button class="modal-close-btn" onclick="App.closeModal('history-modal')">✕</button>
+      </div>
+      <div class="modal-box-body" id="user-transactions-list"></div>
+    </div>
+  </div>
+
+  <!-- ======== AUTH GATE ======== -->
+  <div class="modal-overlay" id="auth-gate-modal">
+    <div class="modal-box" style="max-width:420px;text-align:center">
+      <div class="modal-box-body" style="padding:3rem 2rem">
+        <div style="font-size:4rem;margin-bottom:1rem">🔒</div>
+        <h2 style="margin-bottom:0.5rem">Sign In Required</h2>
+        <p style="color:var(--clr-text-muted);margin-bottom:2rem">You need an account to play. Sign up for free and make
+          a deposit to start!</p>
+        <div style="display:flex;gap:1rem;justify-content:center">
+          <button class="btn-primary" onclick="App.closeModal('auth-gate-modal');App.openModal('signup-modal')">Sign
+            Up</button>
+          <button class="btn-secondary" onclick="App.closeModal('auth-gate-modal');App.openModal('signin-modal')">Sign
+            In</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== WIN OVERLAY ======== -->
+  <div class="win-overlay" id="win-overlay">
+    <div class="win-content">
+      <div class="win-amount gold-text" id="win-amount">+$0</div>
+      <div class="win-label" id="win-label">You won!</div>
+      <button class="btn-primary"
+        onclick="document.getElementById('win-overlay').classList.remove('active')">Awesome!</button>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/slots.js"></script>
+  <script src="js/blackjack.js"></script>
+  <script src="js/roulette.js"></script>
+  <script src="js/dice.js"></script>
+</body>
+
+</html>
