@@ -148,22 +148,27 @@ const Blackjack = (() => {
   }
 
   function dealerPlay() {
-    renderHands(true); // Reveal dealer's hole card
-
-    function dealerDraw() {
-      if (handValue(dealerHand) < 17) {
-        setTimeout(() => {
-          dealerHand.push(drawCard());
-          renderHands(true);
-          dealerDraw();
-        }, 600);
-      } else {
-        setTimeout(() => {
-          evaluateResult();
-        }, 400);
+    // Small delay before revealing hole card
+    setTimeout(() => {
+      renderHands(true);
+      
+      function dealerDraw() {
+        if (handValue(dealerHand) < 17) {
+          setTimeout(() => {
+            dealerHand.push(drawCard());
+            renderHands(true);
+            dealerDraw();
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            evaluateResult();
+          }, 800);
+        }
       }
-    }
-    dealerDraw();
+      
+      // Delay before first card draw
+      setTimeout(dealerDraw, 800);
+    }, 600);
   }
 
   function evaluateResult() {

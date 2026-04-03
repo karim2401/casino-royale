@@ -25,28 +25,118 @@
   </nav>
 
   <main class="admin-main">
+
     <!-- Stats -->
     <div class="admin-stats" id="admin-stats"></div>
 
     <!-- Tabs -->
     <div class="admin-tabs">
-      <button class="admin-tab active" data-tab="deposits" onclick="Admin.switchTab('deposits')">💳 Pending
-        Deposits</button>
-      <button class="admin-tab" data-tab="withdrawals" onclick="Admin.switchTab('withdrawals')">💸 Pending
-        Withdrawals</button>
-      <button class="admin-tab" data-tab="users" onclick="Admin.switchTab('users')">👥 Users</button>
-      <button class="admin-tab" data-tab="transactions" onclick="Admin.switchTab('transactions')">📋 All
-        Transactions</button>
+      <button class="admin-tab active" data-tab="deposits" onclick="Admin.switchTab('deposits')">💳 Pending Deposits</button>
+      <button class="admin-tab" data-tab="withdrawals" onclick="Admin.switchTab('withdrawals')">💸 Pending Withdrawals</button>
+      <button class="admin-tab" data-tab="users" onclick="Admin.switchTab('users')">👥 Players</button>
+      <button class="admin-tab" data-tab="transactions" onclick="Admin.switchTab('transactions')">📋 Transactions</button>
+      <button class="admin-tab" data-tab="database" onclick="Admin.switchTab('database')">🗄️ Database</button>
     </div>
 
-    <!-- Tab Content -->
+    <!-- Tab Panels -->
     <div class="admin-content">
+
+      <!-- Pending Deposits -->
       <div class="admin-panel active" id="panel-deposits"></div>
+
+      <!-- Pending Withdrawals -->
       <div class="admin-panel" id="panel-withdrawals"></div>
-      <div class="admin-panel" id="panel-users"></div>
-      <div class="admin-panel" id="panel-transactions"></div>
+
+      <!-- Players with search -->
+      <div class="admin-panel" id="panel-users">
+        <div class="panel-toolbar">
+          <input class="admin-search" id="users-search" type="text"
+            placeholder="🔍 Search by username or email…"
+            oninput="Admin.filterUsers(this.value)">
+        </div>
+        <div id="users-table-container"></div>
+      </div>
+
+      <!-- All Transactions with filter chips -->
+      <div class="admin-panel" id="panel-transactions">
+        <div class="panel-toolbar">
+          <input class="admin-search" id="tx-search" type="text"
+            placeholder="🔍 Search by username…"
+            oninput="Admin.filterTransactions()">
+          <div class="filter-chips" id="tx-type-chips">
+            <button class="chip-btn active" onclick="Admin.setTxTypeFilter(this, '')">All Types</button>
+            <button class="chip-btn" onclick="Admin.setTxTypeFilter(this, 'deposit')">💳 Deposits</button>
+            <button class="chip-btn" onclick="Admin.setTxTypeFilter(this, 'withdrawal')">💸 Withdrawals</button>
+          </div>
+          <div class="filter-chips" id="tx-status-chips">
+            <button class="chip-btn active" onclick="Admin.setTxStatusFilter(this, '')">All Status</button>
+            <button class="chip-btn chip-pending" onclick="Admin.setTxStatusFilter(this, 'pending')">⏳ Pending</button>
+            <button class="chip-btn chip-approved" onclick="Admin.setTxStatusFilter(this, 'approved')">✅ Approved</button>
+            <button class="chip-btn chip-rejected" onclick="Admin.setTxStatusFilter(this, 'rejected')">❌ Rejected</button>
+          </div>
+        </div>
+        <div id="tx-table-container"></div>
+      </div>
+
+      <!-- Database panel -->
+      <div class="admin-panel" id="panel-database">
+        <div class="db-stats" id="db-stats"></div>
+        <div class="db-section">
+          <div class="db-section-header">
+            <h3 class="db-section-title">👥 Player Database</h3>
+            <input class="admin-search" id="db-search" type="text"
+              placeholder="🔍 Search player…"
+              oninput="Admin.filterDatabase(this.value)">
+          </div>
+          <div id="db-table-container"></div>
+        </div>
+      </div>
+
     </div>
   </main>
+
+  <!-- ======== PLAYER PROFILE MODAL ======== -->
+  <div class="profile-modal-overlay" id="profile-modal" onclick="Admin.closeProfileModal(event)">
+    <div class="profile-modal-box">
+      <div class="profile-modal-header">
+        <div class="profile-avatar" id="profile-avatar">U</div>
+        <div class="profile-info">
+          <div class="profile-username" id="profile-username">—</div>
+          <div class="profile-email" id="profile-email">—</div>
+          <div class="profile-joined" id="profile-joined">—</div>
+        </div>
+        <button class="profile-close-btn" onclick="Admin.closeProfileModal()">✕</button>
+      </div>
+      <div class="profile-balance-bar">
+        <div class="profile-balance-item">
+          <span class="profile-balance-label">💰 Virtual Balance</span>
+          <span class="profile-balance-value gold-text" id="profile-balance">$0</span>
+        </div>
+        <div class="profile-balance-item">
+          <span class="profile-balance-label">📈 Total Deposited</span>
+          <span class="profile-balance-value" id="profile-deposited">$0</span>
+        </div>
+        <div class="profile-balance-item">
+          <span class="profile-balance-label">📉 Total Withdrawn</span>
+          <span class="profile-balance-value" id="profile-withdrawn">$0</span>
+        </div>
+        <div class="profile-balance-item">
+          <span class="profile-balance-label">🚦 Status</span>
+          <span class="profile-balance-value" id="profile-status">—</span>
+        </div>
+      </div>
+      <div class="profile-tabs">
+        <button class="profile-tab active" onclick="Admin.switchProfileTab('deposits', this)">
+          💳 Deposits (<span id="profile-dep-count">0</span>)
+        </button>
+        <button class="profile-tab" onclick="Admin.switchProfileTab('withdrawals', this)">
+          💸 Withdrawals (<span id="profile-wdr-count">0</span>)
+        </button>
+      </div>
+      <div class="profile-panel active" id="profile-panel-deposits"></div>
+      <div class="profile-panel" id="profile-panel-withdrawals"></div>
+    </div>
+  </div>
 
   <script src="js/auth.js"></script>
   <script src="js/admin.js"></script>

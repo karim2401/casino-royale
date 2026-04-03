@@ -385,6 +385,45 @@ const Auth = (() => {
     };
   }
 
+  function adminGetPlayerProfile(username) {
+    if (!isAdmin()) return null;
+    const db = getDB();
+    const user = db.users[username];
+    if (!user) return null;
+    const deposits = user.deposits || [];
+    const withdrawals = user.withdrawals || [];
+    return {
+      username: user.username,
+      email: user.email,
+      balance: user.balance,
+      banned: user.banned,
+      createdAt: user.createdAt,
+      deposits: [...deposits].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+      withdrawals: [...withdrawals].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+      totalDeposited: deposits.filter(d => d.status === 'approved').reduce((s, d) => s + d.amount, 0),
+      totalWithdrawn: withdrawals.filter(w => w.status === 'approved').reduce((s, w) => s + w.amount, 0)
+    };
+  }
+
+  function adminGetDatabaseStats() {
+    if (!isAdmin()) return {};
+    const db = getDB();
+    const users = Object.values(db.users);
+    const realCryptoIn = db.transactions
+      .filter(t => t.type === 'deposit' && t.status === 'approved')
+      .reduce((s, t) => s + t.amount, 0);
+    const realCryptoOut = db.transactions
+      .filter(t => t.type === 'withdrawal' && t.status === 'approved')
+      .reduce((s, t) => s + t.amount, 0);
+    const virtualInPlay = users.reduce((s, u) => s + u.balance, 0);
+    return {
+      realCryptoIn,
+      realCryptoOut,
+      virtualInPlay,
+      houseProfit: realCryptoIn - realCryptoOut - virtualInPlay
+    };
+  }
+
   return {
     signUp, signIn, signOut, isLoggedIn, isAdmin, getCurrentUser, getSession,
     getUserBalance, updateUserBalance, setUserBalance,
@@ -394,6 +433,7 @@ const Auth = (() => {
     adminGetAllUsers, adminGetPendingDeposits, adminGetPendingWithdrawals,
     adminGetAllTransactions, adminApproveDeposit, adminRejectDeposit,
     adminApproveWithdrawal, adminRejectWithdrawal,
-    adminSetUserBalance, adminToggleBan, adminGetStats
+    adminSetUserBalance, adminToggleBan, adminGetStats,
+    adminGetPlayerProfile, adminGetDatabaseStats
   };
 })();

@@ -107,6 +107,17 @@
       <p class="section-subtitle">Four premium games, endless excitement.</p>
     </div>
     <div class="games-grid stagger-in">
+      <div class="game-card hover-lift" onclick="App.openGame('mines')" id="card-mines">
+        <div class="game-card-glow"
+          style="background:radial-gradient(ellipse at center,rgba(153,69,255,0.15),transparent 70%)"></div>
+        <div class="game-card-visual" style="background:linear-gradient(135deg,#12081f,#210f36)">💣</div>
+        <div class="game-card-body">
+          <h3 class="game-card-title">Mines</h3>
+          <p class="game-card-desc">Clear the board of gems without hitting a mine. The more you clear, the bigger the multiplier!</p>
+          <div class="game-card-footer"><span class="chip chip-purple">Up to 5M×</span><span class="game-card-tag">Min
+              $1</span></div>
+        </div>
+      </div>
       <div class="game-card hover-lift" onclick="App.openGame('slots')" id="card-slots">
         <div class="game-card-glow"
           style="background:radial-gradient(ellipse at center,rgba(255,45,85,0.15),transparent 70%)"></div>
@@ -149,9 +160,9 @@
         <div class="game-card-visual" style="background:linear-gradient(135deg,#0a1520,#0a1a2a)">🎲</div>
         <div class="game-card-body">
           <h3 class="game-card-title">Dice</h3>
-          <p class="game-card-desc">Predict the outcome of two dice. Simple, fast, and exciting with up to 5× payouts.
+          <p class="game-card-desc">Slide to set your exact win chance and multiplier. Roll under your target to win instantly.
           </p>
-          <div class="game-card-footer"><span class="chip chip-gold">Up to 5×</span><span class="game-card-tag">Min
+          <div class="game-card-footer"><span class="chip chip-gold">Up to 99×</span><span class="game-card-tag">Min
               $1</span></div>
         </div>
       </div>
@@ -179,6 +190,40 @@
   </footer>
 
   <!-- ======== GAME VIEWS ======== -->
+  <div class="game-view" id="game-mines">
+    <div class="game-view-header">
+      <h2 class="game-view-title">💣 Mines</h2>
+      <div style="display:flex;align-items:center">
+        <div class="wallet-display"><span class="wallet-icon">💰</span><span class="wallet-amount">$0</span></div>
+      </div>
+      <button class="game-view-close" onclick="App.closeGame('mines')">✕</button>
+    </div>
+    <div class="game-view-body">
+      <div id="mines-message" class="game-message neutral">Set your bet & mines, then play!</div>
+      <div class="mines-container">
+        <div class="mines-controls-top">
+          <div class="bet-controls">
+            <span class="bet-label">Bet:</span>
+            <button class="bet-btn" id="mines-bet-down">−</button>
+            <span class="bet-amount-display" id="mines-bet-amount">$1</span>
+            <button class="bet-btn" id="mines-bet-up">+</button>
+          </div>
+          <div class="bet-controls">
+            <span class="bet-label">Mines:</span>
+            <button class="bet-btn" id="mines-count-down">−</button>
+            <span class="bet-amount-display" id="mines-count-display">3</span>
+            <button class="bet-btn" id="mines-count-up">+</button>
+          </div>
+        </div>
+        <div class="mines-grid" id="mines-grid"></div>
+        <div class="mines-actions">
+          <div class="mines-mult-display" id="mines-next-mult">Next: 1.12x</div>
+          <button class="btn-game btn-danger" id="mines-play-btn">BET</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="game-view" id="game-slots">
     <div class="game-view-header">
       <h2 class="game-view-title">🎰 Lucky Slots</h2>
@@ -308,22 +353,33 @@
     <div class="game-view-body">
       <div id="dice-message" class="game-message neutral">Select a prediction, then roll!</div>
       <div class="dice-container">
-        <div class="dice-prediction">
-          <button class="dice-pred-btn" data-prediction="under"><span class="dice-pred-label">⬇️ Under 7</span><span
-              class="dice-pred-desc">Total is 2–6</span><span class="dice-pred-mult">2× Payout</span></button>
-          <button class="dice-pred-btn" data-prediction="seven"><span class="dice-pred-label">🎯 Exactly 7</span><span
-              class="dice-pred-desc">Total is 7</span><span class="dice-pred-mult">5× Payout</span></button>
-          <button class="dice-pred-btn" data-prediction="over"><span class="dice-pred-label">⬆️ Over 7</span><span
-              class="dice-pred-desc">Total is 8–12</span><span class="dice-pred-mult">2× Payout</span></button>
+        <div class="dice-slider-container">
+          <div class="dice-stats-row">
+            <div class="dice-stat-box">
+              <span class="dice-stat-label">Multiplier</span>
+              <span class="dice-stat-value gold-text" id="dice-multiplier">2.00×</span>
+            </div>
+            <div class="dice-stat-box">
+              <span class="dice-stat-label">Roll Under</span>
+              <span class="dice-stat-value" id="dice-target">Under 49.50</span>
+            </div>
+            <div class="dice-stat-box">
+              <span class="dice-stat-label">Win Chance</span>
+              <span class="dice-stat-value" id="dice-chance">49.50%</span>
+            </div>
+          </div>
+          <input type="range" min="1" max="98" step="0.1" value="49.5" class="dice-slider" id="dice-slider">
+          <div class="dice-slider-labels">
+            <span>1%</span>
+            <span>98%</span>
+          </div>
         </div>
         <div class="bet-controls"><span class="bet-label">Bet:</span><button class="bet-btn"
             id="dice-bet-down">−</button><span class="bet-amount-display" id="dice-bet-amount">$1</span><button
             class="bet-btn" id="dice-bet-up">+</button></div>
-        <div class="dice-area">
-          <div class="die" id="die-1">?</div>
-          <div class="die" id="die-2">?</div>
+        <div class="dice-result-area">
+          <div class="dice-total" id="dice-result">00.00</div>
         </div>
-        <div class="dice-total" id="dice-total"></div>
         <div class="dice-actions"><button class="btn-game btn-danger" id="dice-roll">🎲 ROLL DICE</button></div>
       </div>
     </div>
@@ -518,6 +574,7 @@
   <script src="js/blackjack.js"></script>
   <script src="js/roulette.js"></script>
   <script src="js/dice.js"></script>
+  <script src="js/mines.js"></script>
 </body>
 
 </html>
