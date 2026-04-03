@@ -1,27 +1,36 @@
 /* ============================================
-   CASINO ROYALE — Dice Game
+   CASINO ROYALE — Crypto Dice Game
    ============================================ */
 
 const Dice = (() => {
-  let bet = 100;
-  let prediction = null; // 'over' | 'under' | 'seven'
+  let bet = 1;
+  let winChance = 49.5;
   let rolling = false;
+
+  const HOUSE_EDGE = 0.99;
 
   function init() {
     updateBetDisplay();
+    updateDiceStats();
+    
     document.getElementById('dice-roll')?.addEventListener('click', roll);
-    document.getElementById('dice-bet-up')?.addEventListener('click', () => changeBet(50));
-    document.getElementById('dice-bet-down')?.addEventListener('click', () => changeBet(-50));
+    document.getElementById('dice-bet-up')?.addEventListener('click', () => changeBet(1));
+    document.getElementById('dice-bet-down')?.addEventListener('click', () => changeBet(-1));
+    
+    const slider = document.getElementById('dice-slider');
+    if (slider) {
+      slider.addEventListener('input', (e) => {
+        winChance = parseFloat(e.target.value);
+        updateDiceStats();
+      });
+    }
 
-    document.querySelectorAll('.dice-pred-btn').forEach(btn => {
-      btn.addEventListener('click', () => selectPrediction(btn));
-    });
-
-    setMessage('Select a prediction, then roll!', 'neutral');
+    setMessage('Set your win chance and roll!', 'neutral');
   }
 
   function changeBet(delta) {
-    bet = Math.max(50, Math.min(bet + delta, App.getBalance()));
+    if (rolling) return;
+    bet = Math.max(1, bet + delta);
     updateBetDisplay();
   }
 
@@ -30,31 +39,24 @@ const Dice = (() => {
     if (el) el.textContent = '$' + bet.toLocaleString();
   }
 
-  function selectPrediction(btn) {
-    if (rolling) return;
-    document.querySelectorAll('.dice-pred-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    prediction = btn.dataset.prediction;
-    setMessage(`Betting on ${getPredictionLabel(prediction)}. Roll!`, 'info');
+  function getPayoutMultiplier() {
+    return HOUSE_EDGE * (100 / winChance);
   }
 
-  function getPredictionLabel(pred) {
-    switch (pred) {
-      case 'under': return 'Under 7 (2×)';
-      case 'over': return 'Over 7 (2×)';
-      case 'seven': return 'Exactly 7 (5×)';
-      default: return '';
-    }
+  function updateDiceStats() {
+    const multDisplay = document.getElementById('dice-multiplier');
+    const chanceDisplay = document.getElementById('dice-chance');
+    const targetDisplay = document.getElementById('dice-target');
+    
+    if (multDisplay) multDisplay.textContent = getPayoutMultiplier().toFixed(2) + '×';
+    if (chanceDisplay) chanceDisplay.textContent = winChance.toFixed(2) + '%';
+    if (targetDisplay) targetDisplay.textContent = 'Under ' + winChance.toFixed(2);
   }
 
   function roll() {
     if (rolling) return;
-    if (!prediction) {
-      setMessage('Select a prediction first!', 'lose');
-      return;
-    }
     if (App.getBalance() < bet) {
-      setMessage('Not enough balance!', 'lose');
+      setMessage('Not enough balance!', 'error');
       return;
     }
 
@@ -64,64 +66,56 @@ const Dice = (() => {
     const rollBtn = document.getElementById('dice-roll');
     if (rollBtn) rollBtn.disabled = true;
 
-    // Roll dice
-    const die1 = Math.floor(Math.random() * 6) + 1;
-    const die2 = Math.floor(Math.random() * 6) + 1;
-    const total = die1 + die2;
-
-    // Animate dice
-    const dieEl1 = document.getElementById('die-1');
-    const dieEl2 = document.getElementById('die-2');
-    const totalEl = document.getElementById('dice-total');
-
-    if (dieEl1) dieEl1.classList.add('rolling');
-    if (dieEl2) dieEl2.classList.add('rolling');
-    if (totalEl) totalEl.textContent = '...';
-    setMessage('Rolling...', 'info');
-
-    // Quick visual roll
-    let rollCount = 0;
-    const rollInterval = setInterval(() => {
-      if (dieEl1) dieEl1.textContent = Math.floor(Math.random() * 6) + 1;
-      if (dieEl2) dieEl2.textContent = Math.floor(Math.random() * 6) + 1;
-      rollCount++;
-      if (rollCount > 15) {
-        clearInterval(rollInterval);
-        showResult(die1, die2, total);
-      }
-    }, 80);
+    // Roll logic (0.00 to 100.00)
+    const result = Math.random() * 100;
+    
+    // Animate
+    const resultEl = document.getElementById('dice-result');
+    if (resultEl) {
+      resultEl.classList.add('rolling');
+      setMessage('Rolling...', 'info');
+      
+      let ticks = 0;
+      const interval = setInterval(() => {
+        resultEl.textContent = (Math.random() * 100).toFixed(2);
+        ticks++;
+        if (ticks > 20) {
+          clearInterval(interval);
+          finishRoll(result, rollBtn, resultEl);
+        }
+      }, 40);
+    } else {
+      finishRoll(result, rollBtn, null);
+    }
   }
 
-  function showResult(die1, die2, total) {
-    const dieEl1 = document.getElementById('die-1');
-    const dieEl2 = document.getElementById('die-2');
-    const totalEl = document.getElementById('dice-total');
-    const rollBtn = document.getElementById('dice-roll');
+  function finishRoll(result, rollBtn, resultEl) {
+    if (resultEl) {
+      resultEl.classList.remove('rolling');
+      resultEl.textContent = result.toFixed(2);
+    }
 
-    if (dieEl1) { dieEl1.textContent = die1; dieEl1.classList.remove('rolling'); }
-    if (dieEl2) { dieEl2.textContent = die2; dieEl2.classList.remove('rolling'); }
-    if (totalEl) totalEl.textContent = `Total: ${total}`;
-
-    // Evaluate
-    let won = false;
-    let multiplier = 0;
-
-    if (prediction === 'under' && total < 7) { won = true; multiplier = 2; }
-    else if (prediction === 'over' && total > 7) { won = true; multiplier = 2; }
-    else if (prediction === 'seven' && total === 7) { won = true; multiplier = 5; }
-
+    const won = result < winChance;
+    
     if (won) {
-      const winAmount = bet * multiplier;
+      if (resultEl) {
+        resultEl.style.color = 'var(--clr-green)';
+        setTimeout(() => resultEl.style.color = '', 2000);
+      }
+      const winAmount = bet * getPayoutMultiplier();
       App.updateBalance(winAmount);
-      setMessage(`🎲 ${total}! ${getPredictionLabel(prediction)} wins! +$${winAmount.toLocaleString()}`, 'win');
-      if (winAmount >= 500) App.showWin(winAmount, '🎲 Dice');
+      setMessage(`Hit! Rolled ${result.toFixed(2)}. +$${winAmount.toFixed(2)}`, 'success');
+      App.showWin(winAmount, 'Dice');
     } else {
-      setMessage(`🎲 ${total}. ${getPredictionLabel(prediction)} doesn't hit. -$${bet.toLocaleString()}`, 'lose');
+      if (resultEl) {
+        resultEl.style.color = 'var(--clr-red)';
+        setTimeout(() => resultEl.style.color = '', 2000);
+      }
+      setMessage(`Miss! Rolled ${result.toFixed(2)}. You lost $${bet.toFixed(2)}`, 'error');
     }
 
     rolling = false;
     if (rollBtn) rollBtn.disabled = false;
-    updateBetDisplay();
   }
 
   function setMessage(text, type) {
