@@ -9,19 +9,19 @@ const Auth = (() => {
   const SESSION_KEY = 'casino_session';
 
   // --- Crypto wallet addresses (PLACEHOLDER — owner will replace) ---
+  // --- Crypto wallet addresses (PLACEHOLDER — owner will replace) ---
   const WALLET_ADDRESSES = {
-    BTC: { address: 'YOUR_BTC_ADDRESS_HERE', name: 'Bitcoin', symbol: 'BTC', icon: '₿', color: '#f7931a' },
-    ETH: { address: '0x951a1cc8d040630baecf0e674a11e0a398a85152', name: 'Ethereum', symbol: 'ETH', icon: 'Ξ', color: '#627eea' },
-    USDT: { address: '0x951a1cc8d040630baecf0e674a11e0a398a85152', name: 'Tether (USDT)', symbol: 'USDT', icon: '₮', color: '#26a17b' },
-    LTC: { address: 'YOUR_LTC_ADDRESS_HERE', name: 'Litecoin', symbol: 'LTC', icon: 'Ł', color: '#bfbbbb' },
-    BNB: { address: 'YOUR_BNB_ADDRESS_HERE', name: 'BNB', symbol: 'BNB', icon: '◆', color: '#f3ba2f' },
-    DOGE: { address: 'YOUR_DOGE_ADDRESS_HERE', name: 'Dogecoin', symbol: 'DOGE', icon: 'Ð', color: '#c2a633' },
-    SOL: { address: 'YOUR_SOL_ADDRESS_HERE', name: 'Solana', symbol: 'SOL', icon: '◎', color: '#9945ff' },
-    XRP: { address: 'YOUR_XRP_ADDRESS_HERE', name: 'Ripple', symbol: 'XRP', icon: '✕', color: '#346aa9' }
+    BINANCE: { address: '91847388', name: 'Binance Pay', symbol: 'UID', icon: '🔶', color: '#f3ba2f' },
+    COINBASE: { address: '91847388', name: 'Coinbase Pay', symbol: 'ID', icon: '🔵', color: '#0052ff' },
+    CRYPTOCOM: { address: '91847388', name: 'Crypto.com Pay', symbol: 'ID', icon: '🦁', color: '#1199fa' },
+    KRAKEN: { address: '91847388', name: 'Kraken', symbol: 'ID', icon: '🟣', color: '#5741d9' },
+    BYBIT: { address: '91847388', name: 'Bybit Pay', symbol: 'UID', icon: '🟡', color: '#ffb11a' },
+    KUCOIN: { address: '91847388', name: 'KuCoin Pay', symbol: 'UID', icon: '🟢', color: '#24ae8f' }
   };
 
   const MIN_DEPOSIT = 10;
   const MIN_WITHDRAWAL = 50;
+
 
   // --- Database ---
   function getDB() {
