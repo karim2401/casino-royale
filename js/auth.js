@@ -11,8 +11,8 @@ const Auth = (() => {
   // --- Crypto wallet addresses (PLACEHOLDER — owner will replace) ---
   const WALLET_ADDRESSES = {
     BTC: { address: 'YOUR_BTC_ADDRESS_HERE', name: 'Bitcoin', symbol: 'BTC', icon: '₿', color: '#f7931a' },
-    ETH: { address: 'YOUR_ETH_ADDRESS_HERE', name: 'Ethereum', symbol: 'ETH', icon: 'Ξ', color: '#627eea' },
-    USDT: { address: 'YOUR_USDT_ADDRESS_HERE', name: 'Tether (USDT)', symbol: 'USDT', icon: '₮', color: '#26a17b' },
+    ETH: { address: '0x951a1cc8d040630baecf0e674a11e0a398a85152', name: 'Ethereum', symbol: 'ETH', icon: 'Ξ', color: '#627eea' },
+    USDT: { address: '0x951a1cc8d040630baecf0e674a11e0a398a85152', name: 'Tether (USDT)', symbol: 'USDT', icon: '₮', color: '#26a17b' },
     LTC: { address: 'YOUR_LTC_ADDRESS_HERE', name: 'Litecoin', symbol: 'LTC', icon: 'Ł', color: '#bfbbbb' },
     BNB: { address: 'YOUR_BNB_ADDRESS_HERE', name: 'BNB', symbol: 'BNB', icon: '◆', color: '#f3ba2f' },
     DOGE: { address: 'YOUR_DOGE_ADDRESS_HERE', name: 'Dogecoin', symbol: 'DOGE', icon: 'Ð', color: '#c2a633' },
