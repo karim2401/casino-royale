@@ -1,11 +1,11 @@
 # 🎰 Casino Royale
 
-> **Premium online casino platform** — Built with vanilla HTML, CSS, and JavaScript. No dependencies, no build step — just open and play.
+> **Full-stack online casino platform** — Vanilla HTML/CSS/JS frontend + Node.js/Express/PostgreSQL backend with real-time Socket.IO updates.
 
 ![Casino Royale Banner](https://img.shields.io/badge/Casino%20Royale-Premium%20Experience-d4af37?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48dGV4dCB5PScuOWVtJyBmb250LXNpemU9JzkwJz7wn46wPC90ZXh0Pjwvc3ZnPg==)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
-![Languages](https://img.shields.io/badge/i18n-EN%20%7C%20FR-blue?style=for-the-badge)
+![Backend](https://img.shields.io/badge/Backend-Node.js%20%2B%20PostgreSQL-339933?style=for-the-badge&logo=node.js)
 
 ---
 
@@ -15,27 +15,28 @@
 - [Features](#-features)
 - [Games](#-games)
 - [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Authentication System](#-authentication-system)
-- [Admin Panel](#-admin-panel)
-- [Localization (i18n)](#-localization-i18n)
-- [Currencies & Payments](#-currencies--payments)
 - [Tech Stack](#-tech-stack)
+- [🚀 Running Locally](#-running-locally)
+- [☁️ Deploy to Railway](#️-deploy-to-railway)
+- [API Reference](#-api-reference)
+- [Admin Panel](#-admin-panel)
+- [Currencies & Payments](#-currencies--payments)
 - [Responsible Gambling](#-responsible-gambling)
 
 ---
 
 ## 🌟 Overview
 
-Casino Royale is a **full-stack frontend casino platform** that simulates a real-money gambling experience. Users can register, deposit (via crypto), play four premium casino games, track their winnings on the leaderboard, and withdraw funds — all managed through a built-in admin dashboard.
+Casino Royale is a **full-stack casino platform** with a secure Node.js backend. Users can register, deposit (via crypto), play four casino games with **server-side RNG** (no cheating possible), track winnings on a live leaderboard, and withdraw funds — all managed through a built-in admin dashboard with real-time Socket.IO updates.
 
 The site features:
+- 🔐 **JWT authentication** — secure sessions, no localStorage manipulation
+- 🎮 **4 fully playable casino games** with server-side RNG
+- 💰 **Atomic balance operations** — database-level transaction safety
+- 🏆 **Real-time leaderboard** via Socket.IO WebSockets
+- 👑 **Admin panel** for managing users, deposits & withdrawals
 - 🌍 **Multi-language support** (English & French)
-- 💳 **Real crypto wallet addresses** for deposits/withdrawals
-- 🔐 **LocalStorage-based auth** (no backend required)
-- 🎮 **4 fully playable casino games**
-- 🏆 **Persistent leaderboard**
-- 👑 **Admin panel** for managing users and transactions
+- 📱 **Responsive** — mobile-first design
 
 ---
 
@@ -43,60 +44,29 @@ The site features:
 
 | Feature | Description |
 |---|---|
-| 🔐 **Auth System** | Sign up / Sign in with username, email & password |
-| 💰 **Wallet** | Real-time balance display with animated counter |
-| 💳 **Deposits** | Multi-crypto deposit flow with wallet address & TX hash |
-| 💸 **Withdrawals** | Crypto withdrawal requests with admin approval |
+| 🔐 **Auth System** | JWT-based sign up / sign in with bcrypt password hashing |
+| 💰 **Wallet** | Real-time balance via Socket.IO push updates |
+| 💳 **Deposits** | Multi-crypto deposit flow with admin approval |
+| 💸 **Withdrawals** | Withdrawal requests with atomic balance deduction |
 | 📋 **Transactions** | Full deposit/withdrawal history per user |
-| 🏆 **Leaderboard** | Top 10 biggest wins across all games |
+| 🏆 **Leaderboard** | Top 10 biggest wins — live-updated across all users |
 | 🎨 **Animations** | Particle canvas background, confetti, win overlays |
 | 📱 **Responsive** | Mobile-first, hamburger menu, touch-friendly |
-| 🌍 **i18n** | English/French language toggle (EN/FR) |
-| 👑 **Admin Panel** | User management, tx approval/rejection |
+| 🌍 **i18n** | English/French language toggle |
+| 👑 **Admin Panel** | User management, real-time tx approval/rejection |
 
 ---
 
 ## 🎮 Games
 
-### 🎰 Lucky Slots
-Spin 3 reels. Match symbols to win multipliers from **0.5× up to 100×**.
-
-| Combination | Payout |
-|---|---|
-| ⭐⭐⭐ Stars | **100×** |
-| 7️⃣7️⃣7️⃣ Sevens | **50×** |
-| 💎💎💎 Diamonds | **20×** |
-| 🔔🔔🔔 Bells | **12×** |
-| 🍋🍋🍋 Lemons | **8×** |
-| 🍒🍒🍒 Cherries | **5×** |
-| Any 2 match | **0.5×** |
-
-Minimum bet: **$1**
-
----
-
-### 🃏 Blackjack
-Classic card game vs the dealer. Hit, Stand, or Double Down.  
-Blackjack pays **2.5×**. Minimum bet: **$5**
-
----
-
-### 🎡 Roulette
-European roulette with a full betting board.  
-Single numbers pay **36×**. Colors/odds pay **2×**. Minimum bet: **$1**
-
----
-
-### 🎲 Dice
-Predict the outcome of two dice rolls.
-
-| Prediction | Condition | Payout |
+| Game | Min Bet | Top Payout |
 |---|---|---|
-| ⬇️ Under 7 | Total 2–6 | **2×** |
-| 🎯 Exactly 7 | Total = 7 | **5×** |
-| ⬆️ Over 7 | Total 8–12 | **2×** |
+| 🎰 Lucky Slots | $1 | 100× (⭐⭐⭐) |
+| 🃏 Blackjack | $5 | 2.5× (natural blackjack) |
+| 🎡 Roulette | $1 | 36× (single number) |
+| 🎲 Dice | $1 | 5× (exactly 7) |
 
-Minimum bet: **$1**
+> All game outcomes are computed **server-side** — outcomes cannot be predicted or manipulated by the client.
 
 ---
 
@@ -104,157 +74,55 @@ Minimum bet: **$1**
 
 ```
 casino-royale/
-├── index.html          # Main player-facing page
-├── admin.html          # Admin dashboard
-├── README.md           # This file
+├── index.html              # Main player-facing page
+├── admin.html              # Admin dashboard
+├── README.md
 │
-├── css/
-│   ├── index.css       # Global design tokens & base styles
-│   ├── layout.css      # Navbar, hero, sections, modals, footer
-│   ├── games.css       # Game views, card components
-│   ├── animations.css  # Keyframes, transitions, confetti, particles
-│   └── admin.css       # Admin panel styles
+├── css/                    # All styles
+│   ├── index.css
+│   ├── layout.css
+│   ├── games.css
+│   ├── animations.css
+│   └── admin.css
 │
-└── js/
-    ├── auth.js         # Authentication, user storage, crypto wallets
-    ├── app.js          # App controller (modals, wallet UI, leaderboard)
-    ├── slots.js        # Lucky Slots game logic
-    ├── blackjack.js    # Blackjack game logic
-    ├── roulette.js     # Roulette game logic + board rendering
-    ├── dice.js         # Dice game logic
-    └── admin.js        # Admin panel logic
+├── js/                     # Frontend JavaScript
+│   ├── api.js              # ← API client (replaces localStorage)
+│   ├── app.js              # App controller
+│   ├── auth.js             # Auth UI logic
+│   ├── slots.js            # Slots game UI
+│   ├── blackjack.js        # Blackjack game UI
+│   ├── roulette.js         # Roulette game UI
+│   ├── dice.js             # Dice game UI
+│   └── admin.js            # Admin panel UI
+│
+└── casino-api/             # 🔥 Backend (Node.js + Express)
+    ├── package.json
+    ├── .env.example        # ← copy to .env and fill in
+    ├── railway.json        # Railway deployment config
+    │
+    └── src/
+        ├── index.js        # Entry point (Express + Socket.IO)
+        ├── db/
+        │   ├── schema.sql  # PostgreSQL schema
+        │   ├── index.js    # DB connection pool
+        │   └── init.js     # One-shot schema setup script
+        ├── middleware/
+        │   ├── auth.js     # JWT verification
+        │   ├── admin.js    # Admin guard
+        │   └── rateLimit.js
+        ├── routes/
+        │   ├── auth.js     # /api/auth/*
+        │   ├── wallet.js   # /api/wallet/*
+        │   ├── games.js    # /api/games/*
+        │   └── admin.js    # /api/admin/*
+        └── services/
+            ├── socket.js   # Socket.IO server
+            └── games/
+                ├── slots.js
+                ├── dice.js
+                ├── roulette.js
+                └── blackjack.js
 ```
-
----
-
-## 🚀 Getting Started
-
-### Requirements
-- A modern browser (Chrome, Firefox, Edge, Safari)
-- No Node.js, no npm, no build step needed
-
-### Run Locally
-
-1. **Clone or download** the project:
-   ```bash
-   git clone <your-repo-url>
-   cd casino-royale
-   ```
-
-2. **Open `index.html`** directly in your browser:
-   - Double-click `index.html`, OR
-   - Right-click → "Open with" → your browser
-
-3. **Or serve with a local server** (recommended to avoid CORS on some browsers):
-   ```bash
-   # Python
-   python -m http.server 8080
-
-   # Node.js
-   npx serve .
-   ```
-   Then visit `http://localhost:8080`
-
-### Default Admin Account
-
-| Field | Value |
-|---|---|
-| Username | `admin` |
-| Password | `admin123` |
-
-> ⚠️ Change the admin credentials in `js/auth.js` before deploying!
-
----
-
-## 🔐 Authentication System
-
-All user data is stored in **localStorage** under the key `casino_users`.
-
-### User object schema:
-```json
-{
-  "username": "player1",
-  "email": "player@email.com",
-  "password": "hashed_password",
-  "balance": 500,
-  "deposits": [],
-  "withdrawals": [],
-  "createdAt": "2026-01-01T00:00:00.000Z"
-}
-```
-
-### Deposit object:
-```json
-{
-  "id": "dep_1234567890",
-  "amount": 100,
-  "currency": "BTC",
-  "txHash": "abc123...",
-  "status": "pending",
-  "createdAt": "2026-01-01T00:00:00.000Z"
-}
-```
-
-> **Note:** This auth system is for demonstration purposes. In production, use a real backend with hashed passwords and JWT sessions.
-
----
-
-## 👑 Admin Panel
-
-Access via `admin.html` or by signing in with admin credentials.
-
-### Admin Features:
-- 📊 **Dashboard stats** — total users, pending transactions, revenue
-- 👥 **User management** — view all users, balances, and game history
-- 💳 **Deposit approval** — approve or reject user deposit requests (credits balance)
-- 💸 **Withdrawal management** — approve or reject withdrawal requests (debits balance)
-- 🔑 **Balance editing** — manually set any user's balance
-
----
-
-## 🌍 Localization (i18n)
-
-Casino Royale supports **English (EN)** and **French (FR)** via the `js/i18n.js` module.
-
-### Switching Language
-Click the **EN / FR** toggle button in the top navbar to switch languages. The choice is saved in `localStorage`.
-
-### Adding New Languages
-Edit `js/i18n.js` and add a new language key:
-
-```javascript
-const translations = {
-  en: { /* English strings */ },
-  fr: { /* French strings */ },
-  es: { /* Add Spanish here */ }
-};
-```
-
-Then register a new button in the navbar and call `I18n.setLanguage('es')`.
-
-### Adding New Keys
-1. Add the key in all language objects in `js/i18n.js`
-2. Add `data-i18n="your.key"` to the HTML element
-3. The page will auto-translate on load and on language switch
-
----
-
-## 💱 Currencies & Payments
-
-Supported cryptocurrencies for deposits and withdrawals:
-
-| Currency | Symbol | Min Deposit | Min Withdrawal |
-|---|---|---|---|
-| Bitcoin | BTC | $10 | $50 |
-| Ethereum | ETH | $10 | $50 |
-| Tether | USDT | $10 | $50 |
-| BNB | BNB | $10 | $50 |
-| Solana | SOL | $10 | $50 |
-| Litecoin | LTC | $10 | $50 |
-| Dogecoin | DOGE | $10 | $50 |
-| Ripple | XRP | $10 | $50 |
-
-> Wallet addresses are configured in `js/auth.js` under `WALLET_ADDRESSES`. **Replace with your real wallet addresses before going live.**
 
 ---
 
@@ -262,19 +130,259 @@ Supported cryptocurrencies for deposits and withdrawals:
 
 | Layer | Technology |
 |---|---|
-| **Structure** | HTML5 (Semantic) |
-| **Styling** | Vanilla CSS (custom properties, flexbox, grid) |
-| **Logic** | Vanilla JavaScript (ES6+ modules pattern) |
-| **Storage** | Browser `localStorage` |
+| **Frontend** | Vanilla HTML5, CSS3, JavaScript (ES6+) |
+| **Backend** | Node.js 18+, Express 4 |
+| **Database** | PostgreSQL 16 |
+| **Real-time** | Socket.IO 4 |
+| **Auth** | JWT + bcryptjs |
+| **Deployment** | Railway (backend + DB) |
 | **Fonts** | Google Fonts (Cinzel + Inter) |
-| **Icons** | Emoji (no external icon library needed) |
-| **Build** | None — zero dependencies |
+
+---
+
+## 🚀 Running Locally
+
+### Prerequisites
+
+| Tool | Purpose | Required? |
+|---|---|---|
+| Node.js 18+ | Run the backend | ✅ Yes |
+| Docker Desktop | Run PostgreSQL | ✅ Yes (easiest) |
+| Git | Clone the repo | ✅ Yes |
+
+> **No local PostgreSQL installation needed** — Docker handles it.
+
+---
+
+### Step 1 — Clone the repo
+
+```bash
+git clone https://github.com/karim2401/casino-royale.git
+cd casino-royale
+```
+
+---
+
+### Step 2 — Start the database (Docker)
+
+```bash
+# Pull and start a PostgreSQL container
+docker run -d \
+  --name casino-royale-db \
+  -e POSTGRES_USER=casino \
+  -e POSTGRES_PASSWORD=casino123 \
+  -e POSTGRES_DB=casino_royale \
+  -p 5433:5432 \
+  --restart unless-stopped \
+  postgres:16-alpine
+```
+
+> **Windows PowerShell** — use backtick `` ` `` instead of `\` for line continuation, or run it as one line:
+> ```powershell
+> docker run -d --name casino-royale-db -e POSTGRES_USER=casino -e POSTGRES_PASSWORD=casino123 -e POSTGRES_DB=casino_royale -p 5433:5432 --restart unless-stopped postgres:16-alpine
+> ```
+
+---
+
+### Step 3 — Configure the backend
+
+```bash
+cd casino-api
+
+# Copy the example env file
+cp .env.example .env        # Mac/Linux
+copy .env.example .env      # Windows
+```
+
+The `.env` is pre-filled for the Docker container above — **no changes needed** if you used the exact `docker run` command in Step 2.
+
+```env
+DATABASE_URL=postgresql://casino:casino123@localhost:5433/casino_royale
+JWT_SECRET=casino_royale_dev_secret_change_in_production_2026
+PORT=3001
+NODE_ENV=development
+FRONTEND_ORIGIN=*
+```
+
+---
+
+### Step 4 — Install dependencies & create tables
+
+```bash
+# Still inside casino-api/
+npm install           # Install backend packages
+npm run db:init       # Create database tables (run once)
+```
+
+Expected output:
+```
+✅  Database schema initialised successfully.
+```
+
+---
+
+### Step 5 — Start the backend
+
+```bash
+npm run dev
+```
+
+Expected output:
+```
+╔════════════════════════════════════════╗
+║   🎰  Casino Royale API  Online!       ║
+║   Port   : 3001                        ║
+║   Env    : development                 ║
+╚════════════════════════════════════════╝
+```
+
+Health check: open `http://localhost:3001/health` — should return `{"status":"ok"}`.
+
+---
+
+### Step 6 — Serve the frontend
+
+Open a **second terminal**:
+
+```bash
+# From the casino-royale/ root (NOT casino-api/)
+npx serve . -p 8080
+```
+
+Then open **[http://localhost:8080](http://localhost:8080)** in your browser. 🎉
+
+---
+
+### ⚠️ Common Mistakes
+
+| ❌ Wrong | ✅ Correct |
+|---|---|
+| Run `npm install` in `casino-royale/` root | Run it in `casino-royale/casino-api/` |
+| Run `npm run dev` twice | Only one instance on port 3001 — kill old ones first |
+| Run `node src/db/init.js` without `.env` | Fill in `.env` first (Step 3) |
+| Port 3001 already in use | Run: `Get-NetTCPConnection -LocalPort 3001 \| ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }` |
+
+---
+
+### Restart After a Reboot
+
+```bash
+# 1. Restart the DB container (don't re-create it)
+docker start casino-royale-db
+
+# 2. Start backend (in casino-api/)
+cd casino-royale/casino-api
+npm run dev
+
+# 3. Open frontend (in a second terminal, from casino-royale/)
+npx serve . -p 8080
+```
+
+---
+
+## ☁️ Deploy to Railway
+
+1. Push this repo to GitHub
+2. Go to [railway.app](https://railway.app) → **New Project** → **Deploy from GitHub**
+3. Add a **PostgreSQL** plugin to your project
+4. Add a second service → set **Root Directory** to `casino-api`
+5. Railway auto-detects `railway.json` and uses `node src/index.js`
+6. Set these **environment variables** in the Railway dashboard:
+
+| Variable | Value |
+|---|---|
+| `DATABASE_URL` | Auto-provided by Railway's PostgreSQL plugin |
+| `JWT_SECRET` | Any long random string (32+ chars) |
+| `NODE_ENV` | `production` |
+| `FRONTEND_ORIGIN` | Your frontend URL (or `*` temporarily) |
+
+7. In the Railway shell, run once:
+```bash
+node src/db/init.js
+```
+
+---
+
+## 🔌 API Reference
+
+All endpoints require `Authorization: Bearer <token>` except `/api/auth/register` and `/api/auth/login`.
+
+### Auth
+```
+POST /api/auth/register   { username, email, password }
+POST /api/auth/login      { identifier, password }
+GET  /api/auth/me
+```
+
+### Wallet
+```
+GET  /api/wallet/balance
+POST /api/wallet/deposit    { amount, currency, txHash }
+POST /api/wallet/withdraw   { amount, currency, walletAddress }
+GET  /api/wallet/history
+```
+
+### Games
+```
+POST /api/games/slots/spin          { bet }
+POST /api/games/dice/roll           { bet, prediction: 'under'|'seven'|'over' }
+POST /api/games/roulette/spin       { bet, betType, betValue? }
+POST /api/games/blackjack/deal      { bet }
+POST /api/games/blackjack/action    { action: 'hit'|'stand'|'double' }
+GET  /api/games/leaderboard
+```
+
+### Admin (requires admin JWT)
+```
+GET   /api/admin/stats
+GET   /api/admin/users
+PATCH /api/admin/users/:id/balance
+PATCH /api/admin/users/:id/ban
+GET   /api/admin/transactions
+PATCH /api/admin/transactions/:id/approve
+PATCH /api/admin/transactions/:id/reject
+```
+
+---
+
+## 👑 Admin Panel
+
+Access via `admin.html` or by signing in with admin credentials from your database.
+
+Default local admin (created by `npm run db:init`):
+
+| Field | Value |
+|---|---|
+| Username | `admin` |
+| Password | `admin123` |
+
+> ⚠️ **Change the admin password immediately in production!**
+
+### Admin Features:
+- 📊 **Dashboard stats** — users, pending transactions, revenue, house profit
+- 👥 **User management** — view all users, set balances, ban/unban
+- 💳 **Deposit approval** — approve or reject (credits player balance)
+- 💸 **Withdrawal management** — approve (confirm sent) or reject (refunds balance)
+- 🔔 **Real-time alerts** — Socket.IO notifies admin instantly of new requests
+
+---
+
+## 💱 Currencies & Payments
+
+| Platform | Min Deposit | Min Withdrawal |
+|---|---|---|
+| Binance Pay | $10 | $50 |
+| Coinbase Pay | $10 | $50 |
+| Crypto.com | $10 | $50 |
+| Kraken | $10 | $50 |
+| Bybit | $10 | $50 |
+| KuCoin | $10 | $50 |
+
+> Wallet addresses are configured in `js/api.js` under `WALLET_ADDRESSES`. Replace with your real addresses before going live.
 
 ---
 
 ## ⚠️ Responsible Gambling
-
-This platform includes responsible gambling notices:
 
 - **Age verification**: Must be **18+** to play
 - **Disclaimer**: Displayed in footer and during sign-up
