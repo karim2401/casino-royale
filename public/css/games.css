@@ -761,6 +761,132 @@
   75% { transform: rotateY(180deg) translateX(-5px); }
 }
 
+/* ====== CRASH ====== */
+.crash-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.crash-graph-area {
+  width: 100%;
+  height: 250px;
+  background: radial-gradient(ellipse at center, #2a1805 0%, #1a1105 100%);
+  border: 2px solid rgba(255, 165, 0, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.crash-multiplier {
+  font-family: var(--ff-heading);
+  font-size: 5rem;
+  font-weight: var(--fw-black);
+  color: #ffa500;
+  text-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
+  z-index: 2;
+  transition: color 0.2s;
+}
+
+.crash-multiplier.crashed {
+  color: var(--clr-red);
+  text-shadow: 0 0 20px rgba(255, 45, 85, 0.5);
+}
+
+.crash-multiplier.won {
+  color: var(--clr-green);
+  text-shadow: 0 0 20px rgba(0, 200, 83, 0.5);
+}
+
+.crash-actions {
+  display: flex;
+  gap: var(--sp-md);
+  justify-content: center;
+  width: 100%;
+}
+
+/* ====== COIN FLIP ====== */
+.coinflip-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.coin-area {
+  perspective: 1000px;
+  margin: var(--sp-2xl) 0;
+}
+
+.coin {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.coin-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  font-family: var(--ff-heading);
+  font-weight: var(--fw-black);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.coin-heads {
+  background: radial-gradient(circle at top left, #ffd700, #b8860b);
+  color: #5a4200;
+  border: 4px solid #fff3a0;
+}
+
+.coin-tails {
+  background: radial-gradient(circle at top left, #e0e0e0, #808080);
+  color: #333;
+  border: 4px solid #ffffff;
+  transform: rotateY(180deg);
+}
+
+.coin-choice-actions {
+  display: flex;
+  gap: var(--sp-md);
+  margin-bottom: var(--sp-xl);
+}
+
+.coin-choice-actions .btn-game {
+  opacity: 0.5;
+  transform: scale(0.95);
+  border: 2px solid transparent;
+}
+
+.coin-choice-actions .btn-game.selected {
+  opacity: 1;
+  transform: scale(1.05);
+  border-color: var(--clr-gold);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.coinflip-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 /* ====== Responsive game styles ====== */
 @media (max-width: 768px) {
   .slot-reel {
@@ -794,7 +920,11 @@
     gap: 3px;
   }
 
-    .dice-total {
-      font-size: 3rem;
-    }
+  .dice-total {
+    font-size: 3rem;
   }
+  
+  .crash-multiplier {
+    font-size: 4rem;
+  }
+}

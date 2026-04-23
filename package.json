@@ -1,6 +1,28 @@
 {
   "name": "casino-royale",
   "version": "1.0.0",
-  "private": true,
-  "description": "Casino Royale — frontend. Backend is in casino-api/"
+  "description": "> **Premium online casino platform** — Built with vanilla HTML, CSS, and JavaScript. No dependencies, no build step — just open and play.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karim2401/casino-royale.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karim2401/casino-royale/issues"
+  },
+  "homepage": "https://github.com/karim2401/casino-royale#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mysql2": "^3.22.2",
+    "sqlite3": "^6.0.1"
+  }
 }

@@ -175,6 +175,12 @@ const Mines = (() => {
       const msg = document.getElementById('mines-message');
       msg.textContent = `Boom! You hit a mine and lost $${state.bet}.`;
       msg.className = 'game-message error';
+      
+      const gameBody = document.querySelector('#game-mines .game-view-body');
+      gameBody.classList.remove('shake-screen');
+      void gameBody.offsetWidth;
+      gameBody.classList.add('shake-screen');
+
       endRound(true);
     } else {
       // Safe

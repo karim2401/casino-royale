@@ -7,7 +7,8 @@ const Admin = (() => {
   let txTypeFilter = '';
   let txStatusFilter = '';
 
-  function init() {
+  async function init() {
+    await Auth.ensureInit();
     if (!Auth.isAdmin()) {
       window.location.href = 'index.html';
       return;
@@ -109,16 +110,16 @@ const Admin = (() => {
       </div>`;
   }
 
-  function approveDeposit(id) {
+  async function approveDeposit(id) {
     if (confirm('Approve this deposit? Virtual credits will be added to the player.')) {
-      Auth.adminApproveDeposit(id);
+      await Auth.adminApproveDeposit(id);
       renderDeposits(); renderStats(); renderTransactions(); renderUsers('');
     }
   }
 
-  function rejectDeposit(id) {
+  async function rejectDeposit(id) {
     if (confirm('Reject this deposit?')) {
-      Auth.adminRejectDeposit(id);
+      await Auth.adminRejectDeposit(id);
       renderDeposits(); renderStats(); renderTransactions();
     }
   }
@@ -162,16 +163,16 @@ const Admin = (() => {
       </div>`;
   }
 
-  function approveWithdrawal(id) {
+  async function approveWithdrawal(id) {
     if (confirm('Mark as sent? Confirm you have manually sent the crypto to the player\'s wallet.')) {
-      Auth.adminApproveWithdrawal(id);
+      await Auth.adminApproveWithdrawal(id);
       renderWithdrawals(); renderStats(); renderTransactions();
     }
   }
 
-  function rejectWithdrawal(id) {
+  async function rejectWithdrawal(id) {
     if (confirm('Reject this withdrawal? Virtual balance will be refunded to the player.')) {
-      Auth.adminRejectWithdrawal(id);
+      await Auth.adminRejectWithdrawal(id);
       renderWithdrawals(); renderStats(); renderTransactions(); renderUsers('');
     }
   }
@@ -230,18 +231,18 @@ const Admin = (() => {
     renderUsers(query);
   }
 
-  function setBalance(username) {
+  async function setBalance(username) {
     const input = document.getElementById('bal-' + username);
     if (!input) return;
     const val = parseFloat(input.value);
     if (isNaN(val) || val < 0) { alert('Invalid amount'); return; }
-    Auth.adminSetUserBalance(username, val);
+    await Auth.adminSetUserBalance(username, val);
     renderUsers(document.getElementById('users-search')?.value || '');
     renderStats();
   }
 
-  function toggleBan(username) {
-    Auth.adminToggleBan(username);
+  async function toggleBan(username) {
+    await Auth.adminToggleBan(username);
     renderUsers(document.getElementById('users-search')?.value || '');
   }
 
@@ -483,8 +484,8 @@ const Admin = (() => {
   }
 
   // ─── Logout ───────────────────────────────────────────────────
-  function logout() {
-    Auth.signOut();
+  async function logout() {
+    await Auth.signOut();
     window.location.href = 'index.html';
   }
 

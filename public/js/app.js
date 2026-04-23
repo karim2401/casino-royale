@@ -19,19 +19,13 @@ const App = (() => {
     updateWalletUI();
   }
 
-  function updateBalance(amount) {
+  async function updateBalance(amount) {
     if (!Auth.isLoggedIn() || Auth.isAdmin()) return;
-    Auth.updateUserBalance(amount);
+    await Auth.updateUserBalance(amount);
     balance = Auth.getUserBalance();
     updateWalletUI();
   }
 
-  function setBalance(val) {
-    if (!Auth.isLoggedIn() || Auth.isAdmin()) return;
-    Auth.setUserBalance(val);
-    balance = Auth.getUserBalance();
-    updateWalletUI();
-  }
 
   function updateWalletUI() {
     document.querySelectorAll('.wallet-amount').forEach(el => {
@@ -77,14 +71,14 @@ const App = (() => {
     }
   }
 
-  function handleSignUp() {
+  async function handleSignUp() {
     const u = document.getElementById('signup-username').value;
     const e = document.getElementById('signup-email').value;
     const p = document.getElementById('signup-password').value;
     const c = document.getElementById('signup-password-confirm').value;
     const err = document.getElementById('signup-error');
     if (p !== c) { err.textContent = 'Passwords do not match'; err.style.display = 'block'; return; }
-    const r = Auth.signUp(u, e, p);
+    const r = await Auth.signUp(u, e, p);
     if (!r.ok) { err.textContent = r.error; err.style.display = 'block'; return; }
     err.style.display = 'none';
     closeModal('signup-modal');
@@ -92,11 +86,11 @@ const App = (() => {
     fireConfetti(30);
   }
 
-  function handleSignIn() {
+  async function handleSignIn() {
     const u = document.getElementById('signin-username').value;
     const p = document.getElementById('signin-password').value;
     const err = document.getElementById('signin-error');
-    const r = Auth.signIn(u, p);
+    const r = await Auth.signIn(u, p);
     if (!r.ok) { err.textContent = r.error; err.style.display = 'block'; return; }
     if (r.isAdmin) { window.location.href = 'admin.html'; return; }
     err.style.display = 'none';
@@ -104,8 +98,8 @@ const App = (() => {
     updateAuthUI();
   }
 
-  function handleSignOut() {
-    Auth.signOut();
+  async function handleSignOut() {
+    await Auth.signOut();
     document.getElementById('user-menu').classList.remove('open');
     updateAuthUI();
     closeAllGames();
@@ -172,7 +166,7 @@ const App = (() => {
     document.getElementById('deposit-address-section').style.display = '';
     document.getElementById('deposit-details-section').style.display = '';
     document.getElementById('deposit-currency-name').textContent = coin.name;
-    document.getElementById('deposit-crypto-icon').textContent = coin.icon;
+    document.getElementById('deposit-crypto-icon').innerHTML = coin.icon;
     document.getElementById('deposit-crypto-icon').style.color = coin.color;
     document.getElementById('deposit-wallet-address').textContent = coin.address;
     document.getElementById('copy-feedback').style.display = 'none';
@@ -187,12 +181,12 @@ const App = (() => {
     });
   }
 
-  function handleDeposit() {
+  async function handleDeposit() {
     const amount = parseFloat(document.getElementById('deposit-amount').value);
     const txHash = document.getElementById('deposit-txhash').value;
     const errEl = document.getElementById('deposit-error');
     if (!selectedDepositCurrency) { errEl.textContent = 'Select a currency'; errEl.style.display = 'block'; return; }
-    const r = Auth.submitDeposit(amount, selectedDepositCurrency, txHash);
+    const r = await Auth.submitDeposit(amount, selectedDepositCurrency, txHash);
     if (!r.ok) { errEl.textContent = r.error; errEl.style.display = 'block'; return; }
     errEl.style.display = 'none';
     document.querySelectorAll('#deposit-modal .deposit-step').forEach(s => s.style.display = 'none');
@@ -233,16 +227,35 @@ const App = (() => {
     selectedWithdrawCurrency = key;
     document.querySelectorAll('#withdraw-crypto-grid .crypto-card').forEach(c => c.classList.remove('selected'));
     document.querySelector(`#withdraw-crypto-grid .crypto-card[data-currency="${key}"]`)?.classList.add('selected');
+    
+    const walletInput = document.getElementById('withdraw-wallet');
+    const label = walletInput.parentElement.parentElement.querySelector('label');
+    if (key === 'BINANCE') {
+      label.textContent = 'Your Binance Pay ID';
+      const user = Auth.getCurrentUser();
+      if (user && user.binance_id) {
+        walletInput.value = user.binance_id;
+      }
+    } else {
+      label.textContent = 'Your Wallet Address';
+      walletInput.value = '';
+    }
   }
 
-  function handleWithdrawal() {
+  async function handleWithdrawal() {
     const amount = parseFloat(document.getElementById('withdraw-amount').value);
     const wallet = document.getElementById('withdraw-wallet').value;
     const errEl = document.getElementById('withdraw-error');
     if (!selectedWithdrawCurrency) { errEl.textContent = 'Select a currency'; errEl.style.display = 'block'; return; }
-    const r = Auth.submitWithdrawal(amount, selectedWithdrawCurrency, wallet);
+    
+    if (selectedWithdrawCurrency === 'BINANCE' && wallet) {
+      await Auth.updateBinanceId(wallet);
+    }
+    
+    const r = await Auth.submitWithdrawal(amount, selectedWithdrawCurrency, wallet);
     if (!r.ok) { errEl.textContent = r.error; errEl.style.display = 'block'; return; }
     errEl.style.display = 'none';
+    await Auth.updateUserBalance(0); // Quick refresh hack
     syncBalance();
     document.querySelectorAll('#withdraw-modal .form-group').forEach(f => f.style.display = 'none');
     document.querySelector('#withdraw-modal .form-submit-btn').style.display = 'none';
@@ -341,25 +354,25 @@ const App = (() => {
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
   }
 
-  function fireConfetti(count = 50) {
+  function fireConfetti(count = 150) {
     const colors = ['#d4af37', '#f5d060', '#ff2d55', '#00e5ff', '#b24dff', '#00c853', '#fff'];
     for (let i = 0; i < count; i++) {
       const el = document.createElement('div');
       el.className = 'confetti';
       el.style.left = Math.random() * 100 + 'vw';
       el.style.background = colors[Math.floor(Math.random() * colors.length)];
-      el.style.width = (Math.random() * 8 + 5) + 'px';
-      el.style.height = (Math.random() * 8 + 5) + 'px';
+      el.style.width = (Math.random() * 12 + 6) + 'px';
+      el.style.height = (Math.random() * 12 + 6) + 'px';
       el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-      el.style.setProperty('--fall-duration', (Math.random() * 2 + 2) + 's');
-      el.style.animationDelay = Math.random() * 0.5 + 's';
+      el.style.setProperty('--fall-duration', (Math.random() * 3 + 2) + 's');
+      el.style.animationDelay = Math.random() * 0.8 + 's';
       document.body.appendChild(el);
-      setTimeout(() => el.remove(), 4000);
+      setTimeout(() => el.remove(), 5000);
     }
   }
 
   function showWin(amount, gameName) {
-    addWin(gameName, amount); fireConfetti(60);
+    addWin(gameName, amount); fireConfetti(150);
     const o = document.getElementById('win-overlay'), a = document.getElementById('win-amount'), l = document.getElementById('win-label');
     if (o && a && l) { a.textContent = '+$' + amount.toLocaleString(); l.textContent = `You won at ${gameName}!`; o.classList.add('active'); setTimeout(() => o.classList.remove('active'), 3000); }
   }
@@ -391,7 +404,9 @@ const App = (() => {
     });
   }
 
-  function init() {
+  async function init() {
+    await Auth.ensureInit();
+
     initLeaderboard(); initParticles(); initScrollEffects(); initMobileMenu(); initSmoothScroll(); initClickOutside();
     updateAuthUI();
     const wo = document.getElementById('win-overlay');
@@ -404,7 +419,7 @@ const App = (() => {
   document.addEventListener('DOMContentLoaded', init);
 
   return {
-    getBalance, updateBalance, setBalance, syncBalance,
+    getBalance, updateBalance, syncBalance,
     openGame, closeGame, goHome,
     openModal, closeModal, switchModal,
     handleSignUp, handleSignIn, handleSignOut, handlePlayNow,

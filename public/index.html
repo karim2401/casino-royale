@@ -166,6 +166,26 @@
               $1</span></div>
         </div>
       </div>
+      <div class="game-card hover-lift" onclick="App.openGame('crash')" id="card-crash">
+        <div class="game-card-glow"
+          style="background:radial-gradient(ellipse at center,rgba(255,165,0,0.15),transparent 70%)"></div>
+        <div class="game-card-visual" style="background:linear-gradient(135deg,#1a1105,#2a1805)">📈</div>
+        <div class="game-card-body">
+          <h3 class="game-card-title">Crash</h3>
+          <p class="game-card-desc">Watch the multiplier climb. Cash out before it crashes, or lose it all in a fiery explosion!</p>
+          <div class="game-card-footer"><span class="chip chip-orange">Unlimited</span><span class="game-card-tag">Min $1</span></div>
+        </div>
+      </div>
+      <div class="game-card hover-lift" onclick="App.openGame('coinflip')" id="card-coinflip">
+        <div class="game-card-glow"
+          style="background:radial-gradient(ellipse at center,rgba(255,215,0,0.15),transparent 70%)"></div>
+        <div class="game-card-visual" style="background:linear-gradient(135deg,#1a1a05,#2a2a05)">🪙</div>
+        <div class="game-card-body">
+          <h3 class="game-card-title">Coin Flip</h3>
+          <p class="game-card-desc">A classic 50/50 toss. Pick Heads or Tails and double your money in seconds.</p>
+          <div class="game-card-footer"><span class="chip chip-gold">1.95× Payout</span><span class="game-card-tag">Min $1</span></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -385,6 +405,67 @@
     </div>
   </div>
 
+  <div class="game-view" id="game-crash">
+    <div class="game-view-header">
+      <h2 class="game-view-title">📈 Crash</h2>
+      <div style="display:flex;align-items:center">
+        <div class="wallet-display"><span class="wallet-icon">💰</span><span class="wallet-amount">$0</span></div>
+      </div>
+      <button class="game-view-close" onclick="App.closeGame('crash')">✕</button>
+    </div>
+    <div class="game-view-body">
+      <div id="crash-message" class="game-message neutral">Next round starting soon...</div>
+      <div class="crash-container">
+        <div class="crash-graph-area" id="crash-graph-area">
+          <div class="crash-multiplier" id="crash-multiplier">1.00x</div>
+        </div>
+        <div class="bet-controls">
+          <span class="bet-label">Bet:</span>
+          <button class="bet-btn" id="crash-bet-down">−</button>
+          <span class="bet-amount-display" id="crash-bet-amount">$10</span>
+          <button class="bet-btn" id="crash-bet-up">+</button>
+        </div>
+        <div class="crash-actions">
+          <button class="btn-game btn-danger" id="crash-action-btn">Place Bet</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="game-view" id="game-coinflip">
+    <div class="game-view-header">
+      <h2 class="game-view-title">🪙 Coin Flip</h2>
+      <div style="display:flex;align-items:center">
+        <div class="wallet-display"><span class="wallet-icon">💰</span><span class="wallet-amount">$0</span></div>
+      </div>
+      <button class="game-view-close" onclick="App.closeGame('coinflip')">✕</button>
+    </div>
+    <div class="game-view-body">
+      <div id="coinflip-message" class="game-message neutral">Pick Heads or Tails!</div>
+      <div class="coinflip-container">
+        <div class="coin-area">
+          <div class="coin" id="coin-element">
+            <div class="coin-face coin-heads">H</div>
+            <div class="coin-face coin-tails">T</div>
+          </div>
+        </div>
+        <div class="coin-choice-actions">
+          <button class="btn-game" id="btn-choice-heads" onclick="CoinFlip.setChoice('heads')">HEADS</button>
+          <button class="btn-game" id="btn-choice-tails" onclick="CoinFlip.setChoice('tails')">TAILS</button>
+        </div>
+        <div class="bet-controls">
+          <span class="bet-label">Bet:</span>
+          <button class="bet-btn" id="coinflip-bet-down">−</button>
+          <span class="bet-amount-display" id="coinflip-bet-amount">$10</span>
+          <button class="bet-btn" id="coinflip-bet-up">+</button>
+        </div>
+        <div class="coinflip-actions">
+          <button class="btn-game btn-danger" id="coinflip-flip-btn">FLIP</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ======== SIGN UP MODAL ======== -->
   <div class="modal-overlay" id="signup-modal">
     <div class="modal-box">
@@ -575,6 +656,8 @@
   <script src="js/roulette.js"></script>
   <script src="js/dice.js"></script>
   <script src="js/mines.js"></script>
+  <script src="js/crash.js"></script>
+  <script src="js/coinflip.js"></script>
 </body>
 
 </html>
