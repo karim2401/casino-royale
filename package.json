@@ -2,7 +2,7 @@
   "name": "casino-royale",
   "version": "1.0.0",
   "description": "> **Premium online casino platform** — Built with vanilla HTML, CSS, and JavaScript. No dependencies, no build step — just open and play.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
