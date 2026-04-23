@@ -19,12 +19,14 @@ app.use(session({
 }));
 
 // Setup default admin if not exists
-db.get("SELECT id FROM users WHERE username = 'admin'", (err, row) => {
-    if (!row) {
-        const hash = bcrypt.hashSync('admin123', 10);
-        db.run("INSERT INTO users (username, email, password_hash, is_admin) VALUES (?, ?, ?, ?)",
-            ['admin', 'admin@casino.com', hash, 1]);
-    }
+db.serialize(() => {
+    db.get("SELECT id FROM users WHERE username = 'admin'", (err, row) => {
+        if (!err && !row) {
+            const hash = bcrypt.hashSync('admin123', 10);
+            db.run("INSERT INTO users (username, email, password_hash, is_admin) VALUES (?, ?, ?, ?)",
+                ['admin', 'admin@casino.com', hash, 1]);
+        }
+    });
 });
 
 // Middleware
